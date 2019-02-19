@@ -1,9 +1,6 @@
+import os
 import numpy as np
 import random
-
-records = int(input('How many data is needed: '))
-dimension = int(input('How many dimension of data: '))
-possibility = int(input('How many possible output of each data: '))
 
 # generate one data location accouding to dimension and bond
 def dimgen(dim, bond=[0,100]):
@@ -12,14 +9,18 @@ def dimgen(dim, bond=[0,100]):
 
 # generate csv file
 if __name__ == '__main__':
-    with open('data_'+str(records)+'r'+str(dimension)+'d'+str(possibility)+'p'+'.csv', 'w') as data:
+    here = os.path.dirname(os.path.abspath(__file__))
+    records = int(input('How many data is needed: '))
+    dimension = int(input('How many dimension of data: '))
+    possibility = int(input('How many possible output of each data: '))
+    with open(here+'/data_'+str(records)+'r'+str(dimension)+'d'+str(possibility)+'p'+'.csv', 'w') as data:
         for record in range(records):
             probs = np.random.dirichlet(np.ones(possibility),size=1).tolist()[0]
             data.write('d_'+str(record)+', ')
             last = len(probs) - 1
             for i,p in enumerate(probs):
                 if i == last:
-                    data.write(str(p)+', '+str(dimgen(3, bond=[0,100]))+'\n')
+                    data.write(str(p)+', '+str(dimgen(dimension, bond=[0,100]))+'\n')
                 else:
-                    data.write(str(p)+', '+str(dimgen(3, bond=[0,100]))+', ')
+                    data.write(str(p)+', '+str(dimgen(dimension, bond=[0,100]))+', ')
     print("Done")
