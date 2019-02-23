@@ -8,12 +8,8 @@ def dimgen(dim, bond=[0,100]):
     return result
 
 # generate csv file
-if __name__ == '__main__':
-    here = os.path.dirname(os.path.abspath(__file__))
-    records = int(input('How many data is needed: '))
-    dimension = int(input('How many dimension of data: '))
-    possibility = int(input('How many possible output of each data: '))
-    with open(here+'/data_'+str(records)+'r'+str(dimension)+'d'+str(possibility)+'p'+'.csv', 'w') as data:
+def csvgen(path, records, dimension, possibility):
+    with open(path+'/data_'+str(records)+'r'+str(dimension)+'d'+str(possibility)+'p'+'.csv', 'w') as data:
         for record in range(records):
             probs = np.random.dirichlet(np.ones(possibility),size=1).tolist()[0]
             data.write('d_'+str(record)+', ')
@@ -23,4 +19,11 @@ if __name__ == '__main__':
                     data.write(str(p)+', '+str(dimgen(dimension, bond=[0,100]))+'\n')
                 else:
                     data.write(str(p)+', '+str(dimgen(dimension, bond=[0,100]))+', ')
+
+if __name__ == '__main__':
+    here = os.path.dirname(os.path.abspath(__file__))
+    records = int(input('How many data is needed: '))
+    dimension = int(input('How many dimension of data: '))
+    possibility = int(input('How many possible output of each data: '))
+    csvgen(here,records,dimension,possibility)
     print("Done")
