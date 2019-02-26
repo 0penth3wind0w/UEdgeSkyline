@@ -12,13 +12,13 @@ def csvgen(path, records, dimension, possibility):
     with open(path+'/data_'+str(records)+'r'+str(dimension)+'d'+str(possibility)+'p'+'.csv', 'w') as data:
         for record in range(records):
             probs = np.random.dirichlet(np.ones(possibility),size=1).tolist()[0]
-            data.write('d_'+str(record)+', ')
+            data.write('d_'+str(record)+'; ')
             last = len(probs) - 1
             for i,p in enumerate(probs):
                 if i == last:
-                    data.write(str(p)+', '+str(dimgen(dimension, bond=[0,100]))+'\n')
+                    data.write(str(p)+'; '+str(dimgen(dimension, bond=[0,100]))+'\n')
                 else:
-                    data.write(str(p)+', '+str(dimgen(dimension, bond=[0,100]))+', ')
+                    data.write(str(p)+'; '+str(dimgen(dimension, bond=[0,100]))+'; ')
 
 if __name__ == '__main__':
     here = os.path.dirname(os.path.abspath(__file__))
