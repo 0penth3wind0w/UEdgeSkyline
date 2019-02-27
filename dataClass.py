@@ -15,27 +15,30 @@ class Data():
     def insertLocation(self, prob, location):
         self.prob.append(prob)
         self.plocation.append(location)
+    def getLabel(self):
+        return self.name
     def getLocation(self, index):
         try:
             return [self.prob[index], self.plocation[index]]
         except:
             return []
 
-def batchImport(csvfile):
+# batchImpor import data from csv file and return the list of data
+# ps is the possoble count of data
+def batchImport(csvfile, ps):
     result = []
     with open(here+'/data/'+csvfile, 'r') as f:
         csv_reader = csv.reader(f, delimiter=';')
         for row in csv_reader:
-            print(row)
+            data = Data(row[0], ps)
+            for p in range(ps):
+                # Some awful string manipulation to parse numbers
+                data.insertLocation(float(row[2*p+1]), [int(i) for i in row[2*p+2].strip(' []').split(',')])
+            result.append(data)
+    return result
 
 
 if __name__ == '__main__':
-    # test = Data('d_1', 3)
-    # test.insertLocation(0.3, [2,6])
-    # test.insertLocation(0.2, [6,4])
-    # test.insertLocation(0.5, [8,7])
-    # print(test.getLocation(0))
-    # print(test.getLocation(1))
-    # print(test.getLocation(2))
-    # print(test.getLocation(3))
-    batchImport('data_50r2d3p.csv')
+    
+    data = batchImport('data_50r2d3p.csv',3)
+
