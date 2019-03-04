@@ -11,19 +11,30 @@ class Data():
         self.name = name
         self.probs = probs
         self.prob = []
-        self.plocation = []
+        self.locations = []
     def insertLocation(self, prob, location):
         self.prob.append(prob)
-        self.plocation.append(location)
+        self.locations.append(location)
     def getLabel(self):
         return self.name
     def getPCount(self):
         return self.probs
+    def getProbLocSet(self, index):
+        try:
+            return [self.prob[index], self.locations[index]]
+        except:
+            return [None, []]
+    def getProb(self, index):
+        try:
+            return self.prob[index]
+        except:
+            return None
     def getLocation(self, index):
         try:
-            return [self.prob[index], self.plocation[index]]
+            return self.locations[index]
         except:
             return []
+    
 
 # batchImpor import data from csv file and return the list of data
 # ps is the possoble count of data

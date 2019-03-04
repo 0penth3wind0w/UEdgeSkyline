@@ -19,14 +19,14 @@ class TestDominate(unittest.TestCase):
         tLocation2 = [0.3, [3,3]]
         self.assertEqual(dominateStat(tLocation1[1],tLocation2[1]), True)
     def test_dominateProbability(self):
-        # tData1 = Data("t_1",2)
-        # tData1.insertLocation(0.5, [6,2])
-        # tData1.insertLocation(0.5, [4,8])
-        # tData2 = Data("t_2",2)
-        # tData2.insertLocation(0.3, [7.9])
-        # tData2.insertLocation(0.4, [2,4])
+        tData1 = Data("t_1",2)
+        tData1.insertLocation(0.5, [6,2])
+        tData1.insertLocation(0.5, [4,8])
+        tData2 = Data("t_2",2)
+        tData2.insertLocation(0.3, [7.9])
+        tData2.insertLocation(0.4, [2,4])
 
-        # self.assertEqual(dominateProbability(tData1,tData2), 0)
+        self.assertEqual(dominateProbability(tData1,tData2), 0)
 
 if __name__ == '__main__':
     unittest.main()

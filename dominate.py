@@ -8,7 +8,7 @@ from dataClass import Data, batchImport
 # ps: bossible prob count
 def dominateProbability(data1, data2):
     sump = float(0)
-    ps = data1.getPCount
+    ps = data1.getPCount()
     print(ps)
     for i in range(ps):
         l1 = data1.getLocation(i)
