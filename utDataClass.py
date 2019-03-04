@@ -11,6 +11,11 @@ class TestData(unittest.TestCase):
         psum = output333[0].getLocation(0)[0] + output333[0].getLocation(1)[0] + output333[0].getLocation(2)[0]
         self.assertAlmostEqual(psum, 1)
         self.assertEqual(output333[2].getLocation(4), [])
-
+    def test_Data_getPCount(self):
+        tData = Data("t1",2)
+        tData.insertLocation(0.2,[2,3])
+        tData.insertLocation(0.8,[5,4])
+        self.assertEqual(tData.getPCount(),2)
+    
 if __name__ == '__main__':
     unittest.main()
