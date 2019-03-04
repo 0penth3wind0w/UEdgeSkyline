@@ -17,6 +17,9 @@ class Data():
         self.plocation.append(location)
     def getLabel(self):
         return self.name
+    def getPCount(self):
+        l = len(self.prob)
+        return l
     def getLocation(self, index):
         try:
             return [self.prob[index], self.plocation[index]]
