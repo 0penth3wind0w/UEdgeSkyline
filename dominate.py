@@ -9,15 +9,12 @@ from dataClass import Data, batchImport
 def dominateProbability(data1, data2):
     sump = float(0)
     ps = data1.getPCount()
-    print(ps)
     for i in range(ps):
         l1 = data1.getLocation(i)
         for j in range(ps):
             l2 = data2.getLocation(j)
-            print(l1[1])
-            print(l2[1])
-            if dominateStat(l1[1], l2[1]) == True:
-                sump += l1[0]*l2[0]
+            if dominateStat(l1, l2) == True:
+                sump += data1.getProb(i)*data2.getProb(j)
     return sump
 
 # Show dominate status

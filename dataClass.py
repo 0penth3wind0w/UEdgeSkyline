@@ -7,26 +7,26 @@ here = os.path.dirname(os.path.abspath(__file__))
 
 # Class use to store data information
 class Data():
-    def __init__(self, name, probs):
+    def __init__(self, name, ps):
         self.name = name
-        self.probs = probs
-        self.prob = []
+        self.pprob = ps
+        self.probs = []
         self.locations = []
     def insertLocation(self, prob, location):
-        self.prob.append(prob)
+        self.probs.append(prob)
         self.locations.append(location)
     def getLabel(self):
         return self.name
     def getPCount(self):
-        return self.probs
+        return self.pprob
     def getProbLocSet(self, index):
         try:
-            return [self.prob[index], self.locations[index]]
+            return [self.probs[index], self.locations[index]]
         except:
             return [None, []]
     def getProb(self, index):
         try:
-            return self.prob[index]
+            return self.probs[index]
         except:
             return None
     def getLocation(self, index):
