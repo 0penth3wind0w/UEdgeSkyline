@@ -18,8 +18,7 @@ class Data():
     def getLabel(self):
         return self.name
     def getPCount(self):
-        l = len(self.prob)
-        return l
+        return self.probs
     def getLocation(self, index):
         try:
             return [self.prob[index], self.plocation[index]]
