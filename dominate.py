@@ -2,7 +2,7 @@ import os
 
 from dataClass import Data, batchImport
 
-# Calculate dominate probability
+# Calculate the probability that data1 dominate data2
 # data1: [prob, [location]]
 # data2: [prob, [location]]
 # ps: bossible prob count
@@ -39,3 +39,18 @@ def dominateStat(loc1, loc2):
         return True
     else:
         return None
+
+if __name__ == '__main__':
+    data = batchImport('test_rec10_dim2_pos3_rad2.csv', 3)
+    lbl = str(input('input the lable of data point: '))
+    index = -1
+    data1 = Data('tmp',2)
+    for i,d in enumerate(data):
+        if d.getLabel() == lbl:
+            data1 = d
+            index = i
+            break
+    del data[index]
+
+    for d in data:
+        print('Probability that '+ lbl + ' dominates ' + d.getLabel() + ' is: ' + str(dominateProbability(data1, d)))
