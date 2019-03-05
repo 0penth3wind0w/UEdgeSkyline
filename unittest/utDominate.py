@@ -1,6 +1,8 @@
-import os
+import os, sys
+sys.path.append(os.path.abspath(os.pardir))
+
 import unittest
-from dataClass import Data
+from data.dataClass import Data
 from dominate import dominateProbability ,dominateStat
 
 here = os.path.dirname(os.path.abspath(__file__))

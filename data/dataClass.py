@@ -40,7 +40,7 @@ class Data():
 # ps is the possoble count of data
 def batchImport(csvfile, ps):
     result = []
-    with open(here+'/data/'+csvfile, 'r') as f:
+    with open(here+'/'+csvfile, 'r') as f:
         csv_reader = csv.reader(f, delimiter=';')
         for row in csv_reader:
             data = Data(row[0], ps)
@@ -52,6 +52,5 @@ def batchImport(csvfile, ps):
 
 
 if __name__ == '__main__':
-    
-    data = batchImport('data_50r2d3p.csv',3)
+    data = batchImport('data_rec50_dim2_pos3_rad3.csv',3)
 
