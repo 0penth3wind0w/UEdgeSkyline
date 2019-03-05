@@ -7,24 +7,34 @@ here = os.path.dirname(os.path.abspath(__file__))
 
 # Class use to store data information
 class Data():
-    def __init__(self, name, probs):
+    def __init__(self, name, ps):
         self.name = name
-        self.probs = probs
-        self.prob = []
-        self.plocation = []
+        self.pprob = ps
+        self.probs = []
+        self.locations = []
     def insertLocation(self, prob, location):
-        self.prob.append(prob)
-        self.plocation.append(location)
+        self.probs.append(prob)
+        self.locations.append(location)
     def getLabel(self):
         return self.name
     def getPCount(self):
-        l = len(self.prob)
-        return l
+        return self.pprob
+    def getProbLocSet(self, index):
+        try:
+            return [self.probs[index], self.locations[index]]
+        except:
+            return [None, []]
+    def getProb(self, index):
+        try:
+            return self.probs[index]
+        except:
+            return None
     def getLocation(self, index):
         try:
-            return [self.prob[index], self.plocation[index]]
+            return self.locations[index]
         except:
             return []
+    
 
 # batchImpor import data from csv file and return the list of data
 # ps is the possoble count of data
