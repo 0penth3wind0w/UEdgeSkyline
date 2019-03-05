@@ -6,11 +6,12 @@ here = os.path.dirname(os.path.abspath(__file__))
 
 class TestData(unittest.TestCase):
     def test_batchImport(self):
-        output333 = batchImport('test_3r3d3p.csv',3)
+        output333 = batchImport('test_rec10_dim2_pos3_rad2.csv',3)
         self.assertEqual(len(output333), 3)
         psum = output333[0].getProb(0) + output333[0].getProb(1) + output333[0].getProb(2)
         self.assertAlmostEqual(psum, 1)
         self.assertEqual(output333[2].getLocation(4), [])
+    
     def test_Data_getLabel(self):
         tData1 = Data('t1', 2)
         self.assertEqual(tData1.getLabel(),'t1')
