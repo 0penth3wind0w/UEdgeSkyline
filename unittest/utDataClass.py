@@ -4,8 +4,6 @@ sys.path.append(os.path.abspath(os.pardir))
 import unittest
 from data.dataClass import Data, batchImport
 
-here = os.path.dirname(os.path.abspath(__file__))
-
 class TestData(unittest.TestCase):
     def test_batchImport(self):
         output = batchImport('test_rec5_dim3_pos3_rad2.csv',3)

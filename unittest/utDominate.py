@@ -5,8 +5,6 @@ import unittest
 from data.dataClass import Data
 from dominate import dominateProbability ,dominateStat
 
-here = os.path.dirname(os.path.abspath(__file__))
-
 class TestDominate(unittest.TestCase):
     def test_dominateStat1(self):
         tLocation1 = [0.5, [2,5]]
