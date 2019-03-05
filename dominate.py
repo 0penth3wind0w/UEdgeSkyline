@@ -39,4 +39,3 @@ def dominateStat(loc1, loc2):
         return True
     else:
         return None
-        
