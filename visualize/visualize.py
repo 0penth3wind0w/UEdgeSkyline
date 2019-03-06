@@ -25,7 +25,7 @@ def visualize(datalist, pcount):
     plt.show()
 
 if __name__ == '__main__':
-    csv = 'test_rec5_dim3_pos3_rad2.csv'
+    csv = 'test_rec30_dim2_pos3_rad2.csv'
     pcount = 3
     answer = input('Would you like to change the csv file? (Y/N)')
     if answer == 'Y':
