@@ -30,6 +30,6 @@ if __name__ == '__main__':
     answer = input('Would you like to change the csv file? (Y/N)')
     if answer == 'Y':
         csv = input('Please specify the csv file name in data folder: ')
-        pcount = input('Please input the probability count: ')
+        pcount = int(input('Please input the probability count: '))
     datalist = batchImport(csv, pcount)
     visualize(datalist, pcount)
