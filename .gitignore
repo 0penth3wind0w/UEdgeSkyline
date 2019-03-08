@@ -1,5 +1,5 @@
 .DS_Store
 __pycache__
 data/__pycache__
-data/*.csv
+data/[!test_]*.csv
 rtree/__pycache__
