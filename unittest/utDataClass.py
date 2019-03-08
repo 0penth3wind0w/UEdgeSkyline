@@ -40,6 +40,12 @@ class TestData(unittest.TestCase):
         self.assertEqual(tData5.getLocation(0), [3,6,2])
         self.assertEqual(tData5.getLocation(1), [4,1,8])
         self.assertEqual(tData5.getLocation(2), [])
+    def test_Data_getLocationMax(self):
+        tData6 = Data('t6', 3)
+        tData6.insertLocation(0.2, [4,5,9])
+        tData6.insertLocation(0.2, [6,2,3])
+        tData6.insertLocation(0.2, [7,0,5])
+        self.assertEqual(tData6.getLocationMax(), [7,5,9])
     
 if __name__ == '__main__':
     unittest.main()
