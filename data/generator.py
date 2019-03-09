@@ -21,7 +21,7 @@ def datagen(dim, possibility, radius, bond=[0,100]):
         end = False
         while not end:
             location = [ i+random.randint(-1*radius,radius) for i in center ]
-            if dist(location, center) < radius:
+            if dist(location, center) < radius and location not in result:
                 end = True
                 result.append(location)
     return result

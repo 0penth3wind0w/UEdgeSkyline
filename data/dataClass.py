@@ -12,9 +12,26 @@ class Data():
         self.pprob = ps
         self.probs = []
         self.locations = []
+        self.regionMax = []
+        self.regionMin = []
+    def __updateMinMax(self, loc):
+        if self.regionMax == []:
+            self.regionMax = loc.copy()
+        else:
+            for i, lu in enumerate(loc):
+                if self.regionMax[i] < lu:
+                    self.regionMax[i] = lu
+        if self.regionMin == []:
+            self.regionMin = loc.copy()
+        else:
+            for j, lm in enumerate(loc):
+                if self.regionMin[j] > lm:
+                    self.regionMin[j] = lm
     def insertLocation(self, prob, location):
         self.probs.append(prob)
         self.locations.append(location)
+        self.__updateMinMax(self.locations[-1])
+
     def getLabel(self):
         return self.name
     def getPCount(self):
@@ -34,13 +51,16 @@ class Data():
             return self.locations[index]
         except:
             return []
-    
+    def getLocationMax(self):
+        return self.regionMax
+    def getLocationMin(self):
+        return self.regionMin
 
 # batchImpor import data from csv file and return the list of data
 # ps is the possoble count of data
 def batchImport(csvfile, ps):
     result = []
-    with open(here+'/data/'+csvfile, 'r') as f:
+    with open(here+'/'+csvfile, 'r') as f:
         csv_reader = csv.reader(f, delimiter=';')
         for row in csv_reader:
             data = Data(row[0], ps)
@@ -52,6 +72,4 @@ def batchImport(csvfile, ps):
 
 
 if __name__ == '__main__':
-    
-    data = batchImport('data_50r2d3p.csv',3)
-
+    data = batchImport('data_rec50_dim2_pos3_rad3.csv',3)

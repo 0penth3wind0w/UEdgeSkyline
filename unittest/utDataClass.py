@@ -1,17 +1,16 @@
-import os
-import unittest
-from dataClass import Data, batchImport
+import os, sys
+sys.path.append(os.path.abspath(os.pardir))
 
-here = os.path.dirname(os.path.abspath(__file__))
+import unittest
+from data.dataClass import Data, batchImport
 
 class TestData(unittest.TestCase):
     def test_batchImport(self):
-        output333 = batchImport('test_rec10_dim2_pos3_rad2.csv',3)
-        self.assertEqual(len(output333), 3)
-        psum = output333[0].getProb(0) + output333[0].getProb(1) + output333[0].getProb(2)
+        output = batchImport('test_rec5_dim3_pos3_rad2.csv',3)
+        self.assertEqual(len(output), 5)
+        psum = output[0].getProb(0) + output[0].getProb(1) + output[0].getProb(2)
         self.assertAlmostEqual(psum, 1)
-        self.assertEqual(output333[2].getLocation(4), [])
-    
+        self.assertEqual(output[2].getLocation(4), [])
     def test_Data_getLabel(self):
         tData1 = Data('t1', 2)
         self.assertEqual(tData1.getLabel(),'t1')
@@ -41,6 +40,18 @@ class TestData(unittest.TestCase):
         self.assertEqual(tData5.getLocation(0), [3,6,2])
         self.assertEqual(tData5.getLocation(1), [4,1,8])
         self.assertEqual(tData5.getLocation(2), [])
+    def test_Data_getLocationMax(self):
+        tData6 = Data('t6', 3)
+        tData6.insertLocation(0.2, [4,5,9])
+        tData6.insertLocation(0.2, [6,2,3])
+        tData6.insertLocation(0.2, [7,0,5])
+        self.assertEqual(tData6.getLocationMax(), [7,5,9])
+    def test_Data_getLocationMin(self):
+        tData7 = Data('t7', 3)
+        tData7.insertLocation(0.2, [4,5,9])
+        tData7.insertLocation(0.2, [6,2,3])
+        tData7.insertLocation(0.2, [7,0,5])
+        self.assertEqual(tData7.getLocationMin(), [4,0,3])
     
 if __name__ == '__main__':
     unittest.main()

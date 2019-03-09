@@ -1,6 +1,6 @@
 import os
 
-from dataClass import Data, batchImport
+from data.dataClass import Data, batchImport
 
 # Calculate the probability that data1 dominate data2
 # data1: [prob, [location]]
