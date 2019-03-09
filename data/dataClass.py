@@ -14,20 +14,24 @@ class Data():
         self.locations = []
         self.regionMax = []
         self.regionMin = []
-    def __updateMinMax__(self, location):
-        for i, axis in enumerate(location):
-            if axis > self.regionMax[i]:
-                self.regionMax[i] = axis
-            if axis < self.regionMin[i]:
-                self.regionMin[i] = axis
+    def __updateMinMax(self, loc):
+        if self.regionMax == []:
+            self.regionMax = loc.copy()
+        else:
+            for i, lu in enumerate(loc):
+                if self.regionMax[i] < lu:
+                    self.regionMax[i] = lu
+        if self.regionMin == []:
+            self.regionMin = loc
+        else:
+            for j, lm in enumerate(loc):
+                if self.regionMax[i] < lm:
+                    self.regionMax[i] = lm
     def insertLocation(self, prob, location):
         self.probs.append(prob)
         self.locations.append(location)
-        if self.regionMax == [] and self.regionMin == []:
-            self.regionMax = location
-            self.regionMin = location
-        else:
-            self.__updateMinMax__(location)
+        self.__updateMinMax(self.locations[-1])
+
     def getLabel(self):
         return self.name
     def getPCount(self):
@@ -69,4 +73,3 @@ def batchImport(csvfile, ps):
 
 if __name__ == '__main__':
     data = batchImport('data_rec50_dim2_pos3_rad3.csv',3)
-
