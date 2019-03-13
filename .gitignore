@@ -3,3 +3,5 @@ __pycache__
 data/__pycache__
 data/[!test_]*.csv
 rtree/__pycache__
+*/*_index.data
+*/*_index.index
