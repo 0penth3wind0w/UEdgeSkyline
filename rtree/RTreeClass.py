@@ -15,7 +15,7 @@ if __name__ == '__main__':
     test.insertLocation(0.4,[1,3,3])
     test.insertLocation(0.6,[4,5,2])
     #               (d1min,d2min,...,dnmin,d1max,d2max,...,dnmax)
-    idx3d.insert(1, (1,3,2,4,5,3),obj=test)
+    idx3d.insert(1, test.getMinMaxTuple(),obj=test)
     # idx3d.insert(1, (2, 60, 23, 4, 61, 25), obj='h1')
     # idx3d.insert(2, (2, 3, 22, 4, 5, 24),obj='h2')
     # idx3d.insert(3, (2, 51, 30, 4, 54, 31),obj='h3')

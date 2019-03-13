@@ -55,6 +55,8 @@ class Data():
         return self.regionMax
     def getLocationMin(self):
         return self.regionMin
+    def getMinMaxTuple(self):
+        return tuple(self.regionMin+self.regionMax)
 
 # batchImpor import data from csv file and return the list of data
 # ps is the possoble count of data
