@@ -46,9 +46,9 @@ class Data():
         """
         Insert a new instance of data object.
 
-        :params prob: float
+        :param prob: float
             the probability of the new coming instance.
-        :params location: list(int)
+        :param location: list(int)
             the location of the new coming instance.
         """
         self.probs.append(prob)
@@ -69,7 +69,7 @@ class Data():
         Get a list which contain the occurance probability and instance location according to given index.
         If the given index exceed, the function will return [None, []]
 
-        :params index: int
+        :param index: int
             The index of location, according to insertion sequence.(0 to n-1)         
         """
         try:
@@ -81,7 +81,7 @@ class Data():
         Get the occurance probability of instance according to given index.
         If the given index exceed, the function will return None
         
-        :params index: int
+        :param index: int
             The index of occurance probability, according to insertion sequence.(0 to n-1)         
         """
         try:
@@ -93,7 +93,7 @@ class Data():
         Get the instance location according to given index.
         If the given index exceed, the function will return an empty list.
         
-        :params index: int
+        :param index: int
             The index of instance location, according to insertion sequence.(0 to n-1)         
         """
         try:
@@ -127,7 +127,7 @@ class Data():
         """
         Compare if two data object is identical
 
-        :params data: Data
+        :param data: Data
             The data object use to compare with.
         """
         return self.info() == data.info()
@@ -139,7 +139,7 @@ def batchImport(csvfile, ps):
     Import data objects using csv file.
     This function returns a list of data object.
     
-    :params csvfile: srting
+    :param csvfile: srting
         the .csv file locate in data/ of this project
     """
     result = []

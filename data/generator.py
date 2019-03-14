@@ -7,6 +7,12 @@ from scipy.spatial import distance
 # p1: list
 # p2: list
 def dist(p1, p2):
+    """
+    Calculate the distance of two given points.
+
+    :params p1: list(int)
+    :params p2: list(int)
+    """
     dim = len(p1)
     if dim != len(p2):
         return -1
@@ -15,6 +21,20 @@ def dist(p1, p2):
 
 # generate one data location accouding to dimension and bond
 def datagen(dim, possibility, radius, bond=[0,100]):
+    """
+    Genetate one data according to given params.
+    Return a list which contains locations.
+    
+    :params dim: int
+        Dimension of the data
+    :params possibility: int
+        Total instance count of a data record
+    :params radius: int
+        The parameter that bound all possible instance in a limited region.
+        The function will generate a central point. The distance between generated instance location and the central point will not exceed this radius.
+    :params bound: [int, int]
+        the bound of center point [min, max]
+    """
     center = [random.randint(bond[0],bond[1]) for x in range(dim)]
     result = []
     for p in range(possibility):
@@ -28,6 +48,20 @@ def datagen(dim, possibility, radius, bond=[0,100]):
 
 # generate csv file
 def csvgen(path, count, dim, pcount, rad):
+    """
+    Generate csv files accouding to params given.
+
+    :params path: string
+        The path of folder which the generated csv file is stored.
+    :params count: int
+        The number of data to be generated.
+    :params dim: int
+        The dimension of data.
+    :params pcount: int
+        Total instance count of a data record.
+    :params rad: int
+        Use to set the radius in datagen() 
+    """
     with open(path+'/data_'+'rec'+str(count)+'_dim'+str(dim)+'_pos'+str(pcount)+'_rad'+str(rad)+'.csv', 'w') as data:
         for c in range(count):
             # generate probability outcome according to 'possibility'

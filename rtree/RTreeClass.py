@@ -1,6 +1,6 @@
+# No class implemented in this file. Test only.
 import os, sys
 sys.path.append(os.path.abspath(os.pardir))
-
 
 from rtree import index
 from data.dataClass import Data
@@ -15,7 +15,6 @@ if __name__ == '__main__':
     test.insertLocation(0.4,[6,4])
     test.insertLocation(0.6,[3,5])
     #               (d1min,d2min,...,dnmin,d1max,d2max,...,dnmax)
-    print(test.getMinMaxTuple())
     # idx3d.insert(1, test.getMinMaxTuple(),obj=test)
     idx3d.insert(1, test.getMinMaxTuple(),obj=test)
     

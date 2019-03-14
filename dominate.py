@@ -2,11 +2,16 @@ import os
 
 from data.dataClass import Data, batchImport
 
-# Calculate the probability that data1 dominate data2
-# data1: [prob, [location]]
-# data2: [prob, [location]]
-# ps: bossible prob count
+# 
 def dominateProbability(data1, data2):
+    """
+    Calculate the probability that data1 dominate data2
+    
+    :param data1: [float, list(int)]
+        The [prob, [location]] set of first data
+    :param data2: [float, list(int)]
+        The [prob, [location]] set of second data
+    """
     sump = float(0)
     ps = data1.getPCount()
     for i in range(ps):
@@ -17,11 +22,17 @@ def dominateProbability(data1, data2):
                 sump += data1.getProb(i)*data2.getProb(j)
     return sump
 
-# Show dominate status
-# True: loc1 dominate loc2
-# False: loc2 dominate loc1
-# None: No dominate relation occure
 def dominateStat(loc1, loc2):
+    """
+    Show dominate status.
+    Return status:
+        True: loc1 dominate loc2
+        False: loc2 dominate loc1
+        None: No dominate relation occure
+
+    :param loc1: list()
+    :param loc2: list()
+    """
     axis = len(loc1)
     l1doml2 = 0
     l1eql2 = 0

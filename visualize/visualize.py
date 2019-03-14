@@ -7,6 +7,14 @@ from mpl_toolkits.mplot3d import Axes3D
 from data.dataClass import Data, batchImport
 
 def visualize(datalist, pcount):
+    """
+    Draw 2D or 3D scatter plot.
+    
+    :param datalist: list(Data)
+        Data objects used in drawing the scatter plot
+    :param pcount: int
+        Instance count of data to be draw. Should be identical to Data objects in datalist.
+    """
     dim = len(datalist[0].getLocation(0))
     print(dim)
     fig = plt.figure()

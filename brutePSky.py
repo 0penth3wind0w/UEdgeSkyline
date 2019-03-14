@@ -9,15 +9,33 @@ here = os.path.dirname(os.path.abspath(__file__))
 
 class brutePSky():
     def __init__(self, ps, radius=3):
+        """
+        Initializer
+
+        :param ps: int
+            The occurance count of the instance.
+        :param radius: int
+            radius use to prevent data being pruned unexpectedly.
+            Recommand to be set according to the name of .csv file.
+        """
         self.ps = ps
         self.radius = radius
         self.data = []
-        self.result = []
+        self.pruned = []
         self.index = None
         self.dim = 0
     def loadData(self, file):
+        """
+        Load data from csv file
+        """
         self.data = batchImport(file, self.ps)
     def createIndex(self, dim):
+        """
+        Create rtree index
+
+        :param dim: int
+            dimension of data
+        """
         p = index.Property()
         p.dimension = dim
         self.dim = dim
@@ -27,9 +45,10 @@ class brutePSky():
         for d in self.data:
             idx.insert(1, d.getMinMaxTuple(),obj=d)
         self.index = idx
-    def readIndex(self):
-        return self.index
-    def calculatePSky(self):
+    def pruning(self):
+        """
+        Prune the unnecessary Dara objects
+        """
         data = self.data.copy()
         for d in data:
             pastart = [100 if i+self.radius>100 else i+self.radius for i in d.getLocationMax()]
@@ -39,23 +58,33 @@ class brutePSky():
                 for d in data:
                     if p.object.isEqual(d):
                         data.remove(d)
-        self.result = data
+        self.pruned = data
     def getOrigin(self):
+        """
+        Get the list of Data objects before pruning.
+        """
         return self.data
-    def getResult(self):
-        return self.result
+    def getPruned(self):
+        """
+        Get the list of Data objects after pruning.
+        """
+        return self.pruned
     def removeRtree(self):
+        """
+        remove rtree data and index file
+        """
         try:
             os.remove(str(self.ps)+'d_index.data')
             os.remove(str(self.ps)+'d_index.index')
             print('Files removed')
         except:
             print('No such files')
+
 if __name__ == '__main__':
     test = brutePSky(3)
     test.loadData('test_rec30_dim3_pos3_rad2.csv')
     test.createIndex(3)
-    test.calculatePSky()
+    test.pruning()
     visualize(test.getOrigin(),3)
-    visualize(test.getResult(),3)
+    visualize(test.getPruned(),3)
     test.removeRtree()
