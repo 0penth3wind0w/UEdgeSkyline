@@ -5,9 +5,17 @@ import random
 
 here = os.path.dirname(os.path.abspath(__file__))
 
-# Class use to store data information
 class Data():
+    """Class use to store data information"""
     def __init__(self, name, ps):
+        """
+        Initializer
+
+        :param name: string
+            The name (or label) of the data
+        :param ps: int
+            Instance count of the data. 
+        """
         self.name = name
         self.pprob = ps
         self.probs = []
@@ -15,6 +23,13 @@ class Data():
         self.regionMax = []
         self.regionMin = []
     def __updateMinMax(self, loc):
+        """
+        For use inside the class only.
+        Use to update the bounding region.
+
+        :param loc: list(int)
+            the new location instance which added to data object
+        """
         if self.regionMax == []:
             self.regionMax = loc.copy()
         else:
@@ -28,39 +43,105 @@ class Data():
                 if self.regionMin[j] > lm:
                     self.regionMin[j] = lm
     def insertLocation(self, prob, location):
+        """
+        Insert a new instance of data object.
+
+        :params prob: float
+            the probability of the new coming instance.
+        :params location: list(int)
+            the location of the new coming instance.
+        """
         self.probs.append(prob)
         self.locations.append(location)
         self.__updateMinMax(self.locations[-1])
-
     def getLabel(self):
+        """
+        Get the name(label) of the data object
+        """
         return self.name
     def getPCount(self):
+        """
+        Get the total instance count of the data object
+        """
         return self.pprob
     def getProbLocSet(self, index):
+        """
+        Get a list which contain the occurance probability and instance location according to given index.
+        If the given index exceed, the function will return [None, []]
+
+        :params index: int
+            The index of location, according to insertion sequence.(0 to n-1)         
+        """
         try:
             return [self.probs[index], self.locations[index]]
         except:
             return [None, []]
     def getProb(self, index):
+        """
+        Get the occurance probability of instance according to given index.
+        If the given index exceed, the function will return None
+        
+        :params index: int
+            The index of occurance probability, according to insertion sequence.(0 to n-1)         
+        """
         try:
             return self.probs[index]
         except:
             return None
     def getLocation(self, index):
+        """
+        Get the instance location according to given index.
+        If the given index exceed, the function will return an empty list.
+        
+        :params index: int
+            The index of instance location, according to insertion sequence.(0 to n-1)         
+        """
         try:
             return self.locations[index]
         except:
             return []
     def getLocationMax(self):
+        """
+        Get the list which contains the maximium value of data location for each dimension.    
+        """
         return self.regionMax
     def getLocationMin(self):
+        """
+        Get the list which contains the minimium value of data location for each dimension.    
+        """
         return self.regionMin
     def getMinMaxTuple(self):
+        """
+        Get the suple which contains the minimium and maximium value of data location for each dimension.
+        This function is use with rtree.
+        The format of the tuple is: (d1min, d2min,..., dnmin, d1max, d2max,..., dnmax)     
+        """
         return tuple(self.regionMin+self.regionMax)
+    def info(self):
+        """
+        Get all object parameter in a list.
+        Format: [name, pprob, probs, locations, regionMax, regionMin]
+        """
+        return [self.name, self.pprob, self.probs,self.locations,self.regionMax,self.regionMin]
+    def isEqual(self, data):
+        """
+        Compare if two data object is identical
+
+        :params data: Data
+            The data object use to compare with.
+        """
+        return self.info() == data.info()
 
 # batchImpor import data from csv file and return the list of data
 # ps is the possoble count of data
 def batchImport(csvfile, ps):
+    """
+    Import data objects using csv file.
+    This function returns a list of data object.
+    
+    :params csvfile: srting
+        the .csv file locate in data/ of this project
+    """
     result = []
     with open(here+'/'+csvfile, 'r') as f:
         csv_reader = csv.reader(f, delimiter=';')
