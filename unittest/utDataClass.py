@@ -5,53 +5,77 @@ import unittest
 from data.dataClass import Data, batchImport
 
 class TestData(unittest.TestCase):
+    def test_Data_insertLocation(self):
+        d_til = Data('d_til',1)
+        d_til.insertLocation(1,[2,3,4])
+        self.assertEqual(d_til.getLocation(0),[2,3,4])
+    def test_Data_getLabel(self):
+        d_gl = Data('d_gl', 2)
+        self.assertEqual(d_gl.getLabel(),'d_gl')
+    def test_Data_getPCount(self):
+        d_gpc = Data('d_gpc',2)
+        d_gpc.insertLocation(0.2,[2,3])
+        d_gpc.insertLocation(0.8,[5,4])
+        self.assertEqual(d_gpc.getPCount(),2)
+    def test_Data_getProbLocSet(self):
+        d_gpls = Data('d_gpls', 1)
+        d_gpls.insertLocation(1, [4,4])
+        self.assertEqual(d_gpls.getProbLocSet(0), [1,[4,4]])
+        self.assertEqual(d_gpls.getProbLocSet(1), [None,[]])
+    def test_Data_getProb(self):
+        d_gp = Data('d_gp', 3)
+        d_gp.insertLocation(0.1, [3,5])
+        d_gp.insertLocation(0.4, [4,6])
+        d_gp.insertLocation(0.5, [8,7])
+        self.assertEqual(d_gp.getProb(0), 0.1)
+        self.assertEqual(d_gp.getProb(1), 0.4)
+        self.assertEqual(d_gp.getProb(2), 0.5)
+        self.assertEqual(d_gp.getProb(3), None)
+    def test_Data_getLocation(self):
+        d_glo = Data('d_glo',2)
+        d_glo.insertLocation(0.7, [3,6,2])
+        d_glo.insertLocation(0.3, [4,1,8])
+        self.assertEqual(d_glo.getLocation(0), [3,6,2])
+        self.assertEqual(d_glo.getLocation(1), [4,1,8])
+        self.assertEqual(d_glo.getLocation(2), [])
+    def test_Data_getLocationMax(self):
+        d_glm = Data('d_glm', 3)
+        d_glm.insertLocation(0.2, [4,5,9])
+        d_glm.insertLocation(0.2, [6,2,3])
+        d_glm.insertLocation(0.2, [7,0,5])
+        self.assertEqual(d_glm.getLocationMax(), [7,5,9])
+    def test_Data_getLocationMin(self):
+        d_glmi = Data('d_glmi', 3)
+        d_glmi.insertLocation(0.2, [4,5,9])
+        d_glmi.insertLocation(0.2, [6,2,3])
+        d_glmi.insertLocation(0.2, [7,0,5])
+        self.assertEqual(d_glmi.getLocationMin(), [4,0,3])
+    def test_Data_getMinMaxTuple(self):
+        d_gmmt = Data('d_gmmt',2)
+        d_gmmt.insertLocation(0.7, [8,3,9])
+        d_gmmt.insertLocation(0.3, [4,7,2])
+        self.assertEqual(d_gmmt.getMinMaxTuple(), (4,3,2,8,7,9))
+    def test_Data_info(self):
+        d_di = Data('t_di',3)
+        d_di.insertLocation(0.4,[3,7])
+        d_di.insertLocation(0.5,[7,4])
+        d_di.insertLocation(0.1,[1,0])
+        self.assertEqual(d_di.info(), ['t_di',3,[0.4,0.5,0.1],[[3,7],[7,4],[1,0]],[7,7],[1,0]])
+    def test_Data_isEqual(self):
+        d_ie1 = Data('d_ie1',1)
+        d_ie1.insertLocation(1,[1])
+        d_ie2 = Data('d_ie1',1)
+        d_ie2.insertLocation(1,[1])
+        d_ie3 = Data('d_ie3',1)
+        d_ie3.insertLocation(1,[1])
+        self.assertEqual(d_ie1.isEqual(d_ie2), True)
+        self.assertEqual(d_ie1.isEqual(d_ie3), False)
+
     def test_batchImport(self):
         output = batchImport('test_rec5_dim3_pos3_rad2.csv',3)
         self.assertEqual(len(output), 5)
         psum = output[0].getProb(0) + output[0].getProb(1) + output[0].getProb(2)
         self.assertAlmostEqual(psum, 1)
         self.assertEqual(output[2].getLocation(4), [])
-    def test_Data_getLabel(self):
-        tData1 = Data('t1', 2)
-        self.assertEqual(tData1.getLabel(),'t1')
-    def test_Data_getPCount(self):
-        tData2 = Data('t2',2)
-        tData2.insertLocation(0.2,[2,3])
-        tData2.insertLocation(0.8,[5,4])
-        self.assertEqual(tData2.getPCount(),2)
-    def test_Data_getProbLocSet(self):
-        tData3 = Data('t3', 1)
-        tData3.insertLocation(1, [4,4])
-        self.assertEqual(tData3.getProbLocSet(0), [1,[4,4]])
-        self.assertEqual(tData3.getProbLocSet(1), [None,[]])
-    def test_Data_getProb(self):
-        tData4 = Data('t4', 3)
-        tData4.insertLocation(0.1, [3,5])
-        tData4.insertLocation(0.4, [4,6])
-        tData4.insertLocation(0.5, [8,7])
-        self.assertEqual(tData4.getProb(0), 0.1)
-        self.assertEqual(tData4.getProb(1), 0.4)
-        self.assertEqual(tData4.getProb(2), 0.5)
-        self.assertEqual(tData4.getProb(3), None)
-    def test_Data_getLocation(self):
-        tData5 = Data('t5',2)
-        tData5.insertLocation(0.7, [3,6,2])
-        tData5.insertLocation(0.3, [4,1,8])
-        self.assertEqual(tData5.getLocation(0), [3,6,2])
-        self.assertEqual(tData5.getLocation(1), [4,1,8])
-        self.assertEqual(tData5.getLocation(2), [])
-    def test_Data_getLocationMax(self):
-        tData6 = Data('t6', 3)
-        tData6.insertLocation(0.2, [4,5,9])
-        tData6.insertLocation(0.2, [6,2,3])
-        tData6.insertLocation(0.2, [7,0,5])
-        self.assertEqual(tData6.getLocationMax(), [7,5,9])
-    def test_Data_getLocationMin(self):
-        tData7 = Data('t7', 3)
-        tData7.insertLocation(0.2, [4,5,9])
-        tData7.insertLocation(0.2, [6,2,3])
-        tData7.insertLocation(0.2, [7,0,5])
-        self.assertEqual(tData7.getLocationMin(), [4,0,3])
-    
 if __name__ == '__main__':
     unittest.main()
