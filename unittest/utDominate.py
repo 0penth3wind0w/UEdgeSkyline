@@ -6,18 +6,6 @@ from data.dataClass import Data
 from dominate import dominateProbability ,dominateStat
 
 class TestDominate(unittest.TestCase):
-    def test_dominateStat1(self):
-        tLocation1 = [0.5, [2,5]]
-        tLocation2 = [0.3, [1,4]]
-        self.assertEqual(dominateStat(tLocation1[1],tLocation2[1]), False)
-    def test_dominateStat2(self):
-        tLocation1 = [0.2, [2,3]]
-        tLocation2 = [0.3, [1,4]]
-        self.assertEqual(dominateStat(tLocation1[1],tLocation2[1]), None)
-    def test_dominateStat3(self):
-        tLocation1 = [0.4, [2,2]]
-        tLocation2 = [0.3, [3,3]]
-        self.assertEqual(dominateStat(tLocation1[1],tLocation2[1]), True)
     def test_dominateProbability1(self):
         tData1 = Data("t_1",2)
         tData1.insertLocation(0.5, [8,2])
@@ -34,6 +22,19 @@ class TestDominate(unittest.TestCase):
         tData4.insertLocation(0.4, [2,4,6])
         tData4.insertLocation(0.6, [1,5,7])
         self.assertEqual(dominateProbability(tData3,tData4), 0.52)
-
+    
+    def test_dominateStat1(self):
+        tLocation1 = [0.5, [2,5]]
+        tLocation2 = [0.3, [1,4]]
+        self.assertEqual(dominateStat(tLocation1[1],tLocation2[1]), False)
+    def test_dominateStat2(self):
+        tLocation1 = [0.2, [2,3]]
+        tLocation2 = [0.3, [1,4]]
+        self.assertEqual(dominateStat(tLocation1[1],tLocation2[1]), None)
+    def test_dominateStat3(self):
+        tLocation1 = [0.4, [2,2]]
+        tLocation2 = [0.3, [3,3]]
+        self.assertEqual(dominateStat(tLocation1[1],tLocation2[1]), True)
+    
 if __name__ == '__main__':
     unittest.main()
