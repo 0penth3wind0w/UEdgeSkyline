@@ -47,18 +47,21 @@ class brutePSky():
         self.index = idx
     def pruning(self):
         """
-        Prune the unnecessary Dara objects
+        Prune the unnecessary Data objects
         """
         data = self.data.copy()
-        for d in data:
-            pastart = [100 if i+self.radius>100 else i+self.radius for i in d.getLocationMax()]
-            pamax = [100 for j in range(self.dim)]
-            pruned = (self.index.intersection(tuple(pastart+pamax),objects=True))
-            for p in pruned:
-                for d in data:
-                    if p.object.isEqual(d):
-                        data.remove(d)
+        for d in self.data:
+            if d in data:
+                pastart = [100 if i+self.radius>100 else i+self.radius for i in d.getLocationMax()]
+                pamax = [100 for j in range(self.dim)]    
+                pruned = (self.index.intersection(tuple(pastart+pamax),objects=True))
+                for p in pruned:
+                    if p.object in data:
+                        data.remove(p.object)
         self.pruned = data
+    def calculateUSky(self):
+        for p in self.pruned:
+           pass 
     def getOrigin(self):
         """
         Get the list of Data objects before pruning.

@@ -16,7 +16,6 @@ def visualize(datalist, pcount):
         Instance count of data to be draw. Should be identical to Data objects in datalist.
     """
     dim = len(datalist[0].getLocation(0))
-    print(dim)
     fig = plt.figure()
     if dim == 2:
         for d in datalist:
