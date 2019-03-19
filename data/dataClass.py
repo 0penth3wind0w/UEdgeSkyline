@@ -117,23 +117,13 @@ class Data():
         The format of the tuple is: (d1min, d2min,..., dnmin, d1max, d2max,..., dnmax)     
         """
         return tuple(self.regionMin+self.regionMax)
-    def info(self):
-        """
-        Get all object parameter in a list.
-        Format: [name, pprob, probs, locations, regionMax, regionMin]
-        """
-        return [self.name, self.pprob, self.probs,self.locations,self.regionMax,self.regionMin]
-    def isEqual(self, data):
-        """
-        Compare if two data object is identical
+    
+    # Override default function
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__ 
+    def __str__(self):
+        return str(self.__dict__)
 
-        :param data: Data
-            The data object use to compare with.
-        """
-        return self.info() == data.info()
-
-# batchImpor import data from csv file and return the list of data
-# ps is the possoble count of data
 def batchImport(csvfile, ps):
     """
     Import data objects using csv file.
@@ -141,6 +131,8 @@ def batchImport(csvfile, ps):
     
     :param csvfile: srting
         the .csv file locate in data/ of this project
+    :param ps: float
+        instance count of an object
     """
     result = []
     with open(here+'/'+csvfile, 'r') as f:
