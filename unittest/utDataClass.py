@@ -55,21 +55,6 @@ class TestData(unittest.TestCase):
         d_gmmt.insertLocation(0.7, [8,3,9])
         d_gmmt.insertLocation(0.3, [4,7,2])
         self.assertEqual(d_gmmt.getMinMaxTuple(), (4,3,2,8,7,9))
-    def test_Data_info(self):
-        d_di = Data('t_di',3)
-        d_di.insertLocation(0.4,[3,7])
-        d_di.insertLocation(0.5,[7,4])
-        d_di.insertLocation(0.1,[1,0])
-        self.assertEqual(d_di.info(), ['t_di',3,[0.4,0.5,0.1],[[3,7],[7,4],[1,0]],[7,7],[1,0]])
-    def test_Data_isEqual(self):
-        d_ie1 = Data('d_ie1',1)
-        d_ie1.insertLocation(1,[1])
-        d_ie2 = Data('d_ie1',1)
-        d_ie2.insertLocation(1,[1])
-        d_ie3 = Data('d_ie3',1)
-        d_ie3.insertLocation(1,[1])
-        self.assertEqual(d_ie1.isEqual(d_ie2), True)
-        self.assertEqual(d_ie1.isEqual(d_ie3), False)
 
     def test_batchImport(self):
         output = batchImport('test_rec5_dim3_pos3_rad2.csv',3)
