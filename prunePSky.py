@@ -77,17 +77,17 @@ class brutePSky():
         remove rtree data and index file
         """
         try:
-            os.remove(str(self.ps)+'d_index.data')
-            os.remove(str(self.ps)+'d_index.index')
+            os.remove(str(self.dim)+'d_index.data')
+            os.remove(str(self.dim)+'d_index.index')
             print('Files removed')
         except:
             print('No such files')
 
 if __name__ == '__main__':
-    test = brutePSky(3)
-    test.loadData('test_rec30_dim3_pos3_rad2.csv')
-    test.createIndex(3)
+    test = brutePSky(5, radius=4)
+    test.loadData('data_rec50_dim2_pos5_rad4.csv')
+    test.createIndex(2)
     test.pruning()
-    visualize(test.getOrigin(),3)
-    visualize(test.getPruned(),3)
+    visualize(test.getOrigin(),5)
+    visualize(test.getPruned(),5)
     test.removeRtree()
