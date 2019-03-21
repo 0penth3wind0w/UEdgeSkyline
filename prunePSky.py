@@ -8,7 +8,7 @@ from visualize.visualize import visualize
 
 from dominate import dominateStat
 
-class brutePSky():
+class prunePSky():
     def __init__(self, ps, radius=3):
         """
         Initializer
@@ -126,7 +126,7 @@ class brutePSky():
             print('No such files')
 
 if __name__ == '__main__':
-    test = brutePSky(3, radius=2)
+    test = prunePSky(3, radius=2)
     test.loadData('test_rec30_dim3_pos3_rad2.csv')
     test.createIndex(3)
     test.pruning()
