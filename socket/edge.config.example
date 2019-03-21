@@ -1,0 +1,3 @@
+[DEFAULT]
+Host = HOST.ADDRESS
+Port = PORT_NUMBER
