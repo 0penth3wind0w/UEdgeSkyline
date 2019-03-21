@@ -2,10 +2,11 @@ import os, sys
 sys.path.append(os.path.abspath(os.pardir))
 
 from rtree import index
+
 from data.dataClass import Data, batchImport
 from visualize.visualize import visualize
 
-here = os.path.dirname(os.path.abspath(__file__))
+from dominate import dominateStat
 
 class brutePSky():
     def __init__(self, ps, radius=3):
@@ -60,8 +61,32 @@ class brutePSky():
                         data.remove(p.object)
         self.pruned = data
     def calculateUSky(self):
+        skyline = []
         for p in self.pruned:
-           pass 
+            pastart = [0 for i in range(self.dim)]
+            pamax = p.getLocationMax()
+            pdom = list(self.index.intersection(tuple(pastart+pamax),objects=True))
+            if len(pdom) == 1 and pdom[0].object == p:
+                skyline.append([p, 1.0])
+            else:
+                finalp = 0.0
+                for i in range(p.getPCount()):
+                    base = p.getProb(i)
+                    loc = p.getLocation(i)
+                    intersec = list(self.index.intersection(tuple(pastart+loc),objects=True))
+                    for d in intersec:
+                        dobj = d.object
+                        if dobj != p:
+                            tprob = 0.0
+                            for idx in range(dobj.getPCount()):
+                                if dominateStat(dobj.getLocation(idx),loc) == True:
+                                    tprob += dobj.getProb(idx)
+                            tprob = 1.0 - tprob
+                            base *= tprob
+                    finalp += base
+                skyline.append([p, finalp])
+
+        print(skyline)
     def getOrigin(self):
         """
         Get the list of Data objects before pruning.
@@ -88,6 +113,7 @@ if __name__ == '__main__':
     test.loadData('data_rec50_dim2_pos5_rad4.csv')
     test.createIndex(2)
     test.pruning()
+    test.calculateUSky()
     visualize(test.getOrigin(),5)
     visualize(test.getPruned(),5)
     test.removeRtree()
