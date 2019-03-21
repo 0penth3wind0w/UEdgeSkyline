@@ -52,9 +52,11 @@ class brutePSky():
         """
         data = self.data.copy()
         for d in self.data:
+            # cascade purning method. Inspired from "Efficient Computation of Group Skyline Queries on MapReduce (FCU)"
             if d in data:
                 pastart = [100 if i+self.radius>100 else i+self.radius for i in d.getLocationMax()]
-                pamax = [100 for j in range(self.dim)]    
+                pamax = [100 for j in range(self.dim)]
+                # prune data points that are obviously dominated by current data point
                 pruned = (self.index.intersection(tuple(pastart+pamax),objects=True))
                 for p in pruned:
                     if p.object in data:
@@ -87,6 +89,21 @@ class brutePSky():
                 skyline.append([p, finalp])
 
         print(skyline)
+    def getCandidate(self):
+        data = self.data.copy()
+        for p in self.pruned:
+            if p in data:
+                data.remove(p)
+        tmp = data.copy()
+        for d in tmp:
+            if d in data:
+                pastart = [100 if i+self.radius>100 else i+self.radius for i in d.getLocationMax()]
+                pamax = [100 for j in range(self.dim)]
+                pruned = (self.index.intersection(tuple(pastart+pamax),objects=True))
+                for p in pruned:
+                    if p.object in data:
+                        data.remove(p.object)
+        return data
     def getOrigin(self):
         """
         Get the list of Data objects before pruning.
@@ -109,11 +126,12 @@ class brutePSky():
             print('No such files')
 
 if __name__ == '__main__':
-    test = brutePSky(5, radius=4)
-    test.loadData('data_rec50_dim2_pos5_rad4.csv')
-    test.createIndex(2)
+    test = brutePSky(3, radius=2)
+    test.loadData('test_rec30_dim3_pos3_rad2.csv')
+    test.createIndex(3)
     test.pruning()
     test.calculateUSky()
-    visualize(test.getOrigin(),5)
-    visualize(test.getPruned(),5)
+    visualize(test.getOrigin(),3)
+    visualize(test.getPruned(),3)
+    visualize(test.getCandidate(),3)
     test.removeRtree()
