@@ -5,3 +5,4 @@ data/[!test_]*.csv
 rtree/__pycache__
 */*_index.data
 */*_index.index
+socket/*.config

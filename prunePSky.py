@@ -33,7 +33,7 @@ class prunePSky():
     def createIndex(self, dim):
         """
         Create rtree index
-
+        
         :param dim: int
             dimension of data
         """
@@ -63,6 +63,9 @@ class prunePSky():
                         data.remove(p.object)
         self.pruned = data
     def calculateUSky(self):
+        """
+        Calculate the skyline of pruned data
+        """
         skyline = []
         for p in self.pruned:
             pastart = [0 for i in range(self.dim)]
@@ -90,6 +93,9 @@ class prunePSky():
 
         print(skyline)
     def getCandidate(self):
+        """
+        Get candidate skyline points from originally pruned data points
+        """
         data = self.data.copy()
         for p in self.pruned:
             if p in data:
