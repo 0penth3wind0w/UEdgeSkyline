@@ -57,8 +57,8 @@ class TestData(unittest.TestCase):
         self.assertEqual(d_gmmt.getMinMaxTuple(), (4,3,2,8,7,9))
 
     def test_batchImport(self):
-        output = batchImport('test_rec5_dim3_pos3_rad2.csv',3)
-        self.assertEqual(len(output), 5)
+        output = batchImport('test_rec30_dim3_pos3_rad2.csv',3)
+        self.assertEqual(len(output), 30)
         psum = output[0].getProb(0) + output[0].getProb(1) + output[0].getProb(2)
         self.assertAlmostEqual(psum, 1)
         self.assertEqual(output[2].getLocation(4), [])

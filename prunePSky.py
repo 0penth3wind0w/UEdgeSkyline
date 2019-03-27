@@ -90,8 +90,12 @@ class prunePSky():
                             base *= tprob
                     finalp += base
                 skyline.append([p, finalp])
+        for p in skyline:
+            print(p[0])
+            print(p[1])
+            print("")
+        # print(skyline)
 
-        print(skyline)
     def getCandidate(self):
         """
         Get candidate skyline points from originally pruned data points
@@ -132,12 +136,12 @@ class prunePSky():
             print('No such files')
 
 if __name__ == '__main__':
-    test = prunePSky(3, radius=2)
-    test.loadData('test_rec30_dim3_pos3_rad2.csv')
-    test.createIndex(3)
+    test = prunePSky(5, radius=4)
+    test.loadData('data_rec100_dim2_pos5_rad4.csv')
+    test.createIndex(2)
     test.pruning()
     test.calculateUSky()
-    visualize(test.getOrigin(),3)
-    visualize(test.getPruned(),3)
-    visualize(test.getCandidate(),3)
+    visualize(test.getOrigin(),5)
+    visualize(test.getPruned(),5)
+    visualize(test.getCandidate(),5)
     test.removeRtree()

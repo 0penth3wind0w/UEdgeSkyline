@@ -148,4 +148,4 @@ def batchImport(csvfile, ps):
 
 
 if __name__ == '__main__':
-    data = batchImport('data_rec50_dim2_pos3_rad3.csv',3)
+    data = batchImport('test_rec30_dim3_pos3_rad2.csv',3)
