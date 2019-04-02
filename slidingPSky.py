@@ -1,11 +1,11 @@
 import os, sys
 sys.path.append(os.path.abspath(os.pardir))
 
+import time
 from rtree import index
 
 from data.dataClass import Data, batchImport
 from visualize.visualize import visualize
-
 from dominate import dominateStat
 
 class slidePSky():
@@ -139,18 +139,21 @@ class slidePSky():
             print('No such files')
 
 if __name__ == '__main__':
-    test = slidePSky(2, 5, 4, [0,100], 10)
-    dqueue = batchImport('data_rec100_dim2_pos5_rad4.csv', 5)
-    for i in range(30):
+    test = slidePSky(2, 5, 4, [0,1000], wsize=100)
+    dqueue = batchImport('1500_dim2_pos5_rad5_01000.csv', 5)
+    start_time = time.time()
+    for i in range(1500):
         test.receiveData(dqueue[i])
         test.updateSkyline()
-        print("Window: "+str(len(test.getWindow())))
-        print("Sk: "+ str(len(test.getSkyline())))
-        for each in test.getSkyline():
-            print(each)
-        print("Sk2: "+ str(len(test.getSkyline2())))
-        visualize(test.getWindow(),5)
-        visualize(test.getSkyline(),5)
-        visualize(test.getSkyline2(),5)
-        print()
+        # if i%100 == 0:
+        #     print("Window: "+str(len(test.getWindow())))
+        #     print("Sk: "+ str(len(test.getSkyline())))
+        #     # for each in test.getSkyline():
+        #     #     print(each)
+        #     print("Sk2: "+ str(len(test.getSkyline2())))
+        #     visualize(test.getWindow(), 5, [0,1000])
+        #     visualize(test.getSkyline(), 5, [0,1000])
+        #     visualize(test.getSkyline2(), 5, [0,1000])
+        #     print()
     test.removeRtree()
+    print("--- %s seconds ---" % (time.time() - start_time))
