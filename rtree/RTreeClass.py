@@ -24,12 +24,13 @@ if __name__ == '__main__':
     # idx3d.insert(4, (2, 51, 23, 4, 65, 45),obj='h4')
     
     #                              (d1min,d2min,...,dnmin,d1max,d2max,...,dnmax)
-    h = list(idx3d.intersection( (6,5,8,7) ,objects=True))
+    h = [i.object for i in (idx3d.intersection( (0,0,10,10) ,objects=True))]
     
     # h = list(idx3d.intersection( (0, 50, 22, 3, 62, 43) ,objects=True))
     
-    print(h)
+    for i in h:
+        print(i)
 
-    for i in h:    
-        print(i.object.getLabel())
-        print(i.bbox)
+    # for i in h:    
+    #     print(i.object.getLabel())
+    #     print(i.bbox)
