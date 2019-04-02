@@ -52,7 +52,7 @@ def dominateStat(loc1, loc2):
         return None
 
 if __name__ == '__main__':
-    data = batchImport('test_rec30_dim2_pos3_rad2.csv', 3)
+    data = batchImport('test_30_dim2_pos3_rad2_0100.csv', 3)
     lbl = str(input('input the lable of data point: '))
     index = -1
     data1 = Data('tmp',2)

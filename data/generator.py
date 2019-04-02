@@ -47,7 +47,7 @@ def datagen(dim, possibility, radius, bond=[0,100]):
     return result
 
 # generate csv file
-def csvgen(path, count, dim, pcount, rad):
+def csvgen(path, count, dim, pcount, rad, dmin, dmax):
     """
     Generate csv files accouding to params given.
 
@@ -60,16 +60,20 @@ def csvgen(path, count, dim, pcount, rad):
     :params pcount: int
         Total instance count of a data record.
     :params rad: int
-        Use to set the radius in datagen() 
+        Use to set the radius in datagen()
+    :param dmin: int
+        Data range minimum.
+    :param dmax: int
+        Data range maximum.
     """
-    with open(path+'/data_'+'rec'+str(count)+'_dim'+str(dim)+'_pos'+str(pcount)+'_rad'+str(rad)+'.csv', 'w') as data:
+    with open(path+'/'+str(count)+'_dim'+str(dim)+'_pos'+str(pcount)+'_rad'+str(rad)+'_'+str(dmin)+str(dmax)+'.csv', 'w') as data:
         for c in range(count):
             # generate probability outcome according to 'possibility'
             probs = np.random.dirichlet(np.ones(pcount),size=1).tolist()[0]
             # label
             data.write('d_'+str(c)+'; ')
             last = pcount - 1
-            record = datagen(dim, pcount, rad, bond=[0+rad,100-rad])
+            record = datagen(dim, pcount, rad, bond=[dmin+rad,dmax-rad])
             for i,p in enumerate(probs):
                 if i == last:
                     data.write(str(p)+'; '+str(record[i])+'\n')
@@ -82,5 +86,7 @@ if __name__ == '__main__':
     dim = int(input('How many dimension of data: '))
     pcount = int(input('How many possible output of each data: '))
     rad = int(input('Radius of the record: '))
-    csvgen(here, count, dim, pcount, rad)
+    dmin = int(input('Data range min: '))
+    dmax = int(input('Data range max: '))
+    csvgen(here, count, dim, pcount, rad, dmin, dmax)
     print("Done")

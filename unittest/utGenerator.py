@@ -10,7 +10,7 @@ class TestData(unittest.TestCase):
         p2 = [3,4]
         self.assertEqual(dist(p1,p2), 5)
     def test_datagen(self):
-        s = datagen(2,2,2)
+        s = datagen(2,2,2,[0,100])
         self.assertLessEqual(dist(s[0],s[1]),4)
 
 if __name__ == '__main__':

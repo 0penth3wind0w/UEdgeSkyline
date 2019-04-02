@@ -9,7 +9,7 @@ from visualize.visualize import visualize
 from dominate import dominateStat
 
 class prunePSky():
-    def __init__(self, ps, radius=3):
+    def __init__(self, ps, drange=[0,100], radius=3):
         """
         Initializer
 
@@ -20,6 +20,7 @@ class prunePSky():
             Recommand to be set according to the name of .csv file.
         """
         self.ps = ps
+        self.drange = drange
         self.radius = radius
         self.data = []
         self.pruned = []
@@ -54,8 +55,8 @@ class prunePSky():
         for d in self.data:
             # cascade purning method. Inspired from "Efficient Computation of Group Skyline Queries on MapReduce (FCU)"
             if d in data:
-                pastart = [100 if i+self.radius>100 else i+self.radius for i in d.getLocationMax()]
-                pamax = [100 for j in range(self.dim)]
+                pastart = [self.drange[1] if i+self.radius>self.drange[1] else i+self.radius for i in d.getLocationMax()]
+                pamax = [self.drange[1] for j in range(self.dim)]
                 # prune data points that are obviously dominated by current data point
                 pruned = (self.index.intersection(tuple(pastart+pamax),objects=True))
                 for p in pruned:
@@ -68,7 +69,7 @@ class prunePSky():
         """
         skyline = []
         for p in self.pruned:
-            pastart = [0 for i in range(self.dim)]
+            pastart = [self.drange[0] for i in range(self.dim)]
             pamax = p.getLocationMax()
             pdom = list(self.index.intersection(tuple(pastart+pamax),objects=True))
             if len(pdom) == 1 and pdom[0].object == p:
@@ -107,8 +108,8 @@ class prunePSky():
         tmp = data.copy()
         for d in tmp:
             if d in data:
-                pastart = [100 if i+self.radius>100 else i+self.radius for i in d.getLocationMax()]
-                pamax = [100 for j in range(self.dim)]
+                pastart = [self.drange[1] if i+self.radius>self.drange[1] else i+self.radius for i in d.getLocationMax()]
+                pamax = [self.drange[1] for j in range(self.dim)]
                 pruned = (self.index.intersection(tuple(pastart+pamax),objects=True))
                 for p in pruned:
                     if p.object in data:
@@ -136,12 +137,12 @@ class prunePSky():
             print('No such files')
 
 if __name__ == '__main__':
-    test = prunePSky(5, radius=4)
+    test = prunePSky(5, drange=[0,100],radius=4)
     test.loadData('data_rec100_dim2_pos5_rad4.csv')
     test.createIndex(2)
     test.pruning()
     test.calculateUSky()
-    visualize(test.getOrigin(),5)
-    visualize(test.getPruned(),5)
-    visualize(test.getCandidate(),5)
+    visualize(test.getOrigin(),5, [0,100])
+    visualize(test.getPruned(),5, [0,100])
+    visualize(test.getCandidate(),5, [0,100])
     test.removeRtree()
