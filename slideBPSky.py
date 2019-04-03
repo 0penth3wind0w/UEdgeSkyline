@@ -1,4 +1,4 @@
-# Sliding window update PSky
+# Sliding window brute force PSky
 import os, sys
 sys.path.append(os.path.abspath(os.pardir))
 
@@ -9,7 +9,7 @@ from data.dataClass import Data, batchImport
 from visualize.visualize import visualize
 from dominate import dominateStat
 
-class slideUPSky():
+class slideBPSky():
     def __init__(self, dim, ps, radius, drange=[0,100], wsize=10):
         """
         Initializer
@@ -70,52 +70,32 @@ class slideUPSky():
         else:
             print("error")
     def updateSkyline(self):
-        skyline = self.skyline.copy()
-        skyline2 = self.skyline2.copy()
-        # Remove outdated data in sk2
-        for d in skyline2.copy():
-            if not (d in self.window):
-                skyline2.remove(d)
-        # Remove outdated data in sk, add sk2 data to sk when needed
-        for d in skyline.copy():
-            if not (d in self.window):
-                skyline.remove(d)
-                sstart = [ i for i in d.getLocationMax()]
-                send = [self.drange[1] for i in range(self.dim)]
-                search = [ p.object for p in (self.index.intersection(tuple(sstart+send),objects=True))]
-                for sd in search:
-                    if sd in skyline2:
-                        skyline2.remove(sd)
-                        skyline.append(sd)
-        # filter out new points
-        newdata = self.window.copy()
-        for d in newdata.copy():
-            if (d in skyline) or (d in skyline2):
-                newdata.remove(d)
-        # append new point into sk
-        for d in newdata:
-            skyline.append(d)
-        # prune objects in sk, move data dominated by other sk point to sk2
-        for d in skyline.copy():
-            if d in skyline:
-                vurstart = [ self.drange[1] if i+2*self.radius+0.1 > self.drange[1] else i+2*self.radius+0.1 for i in d.getLocationMax()]
-                vurend = [ self.drange[1] for i in range(self.dim)]
-                vur = [ p.object for p in (self.index.intersection(tuple(vurstart+vurend),objects=True))]
-                for p in vur:
-                    if p in skyline:
-                        skyline.remove(p)
-                        skyline2.append(p)
-        # prune objects in sk2
-        for d in skyline2.copy():
-            if d in skyline2:
-                vurstart = [ self.drange[1] if i+2*self.radius+0.1 > self.drange[1] else i+2*self.radius+0.1 for i in d.getLocationMax()]
-                vurend = [ self.drange[1] for i in range(self.dim)]
-                vur = [ p.object for p in (self.index.intersection(tuple(vurstart+vurend),objects=True))]
-                for p in vur:
-                    if p in skyline2:
-                       skyline2.remove(p)
-        self.skyline = skyline
-        self.skyline2 = skyline2
+        pruned = self.window.copy()
+        clean = self.window.copy()
+        # pruning
+        for d in self.window.copy():
+            # cascade purning method. Inspired from "Efficient Computation of Group Skyline Queries on MapReduce (FCU)"
+            if d in clean:
+                pastart = [self.drange[1] if i+2*self.radius+0.1>self.drange[1] else i+2*self.radius+0.1 for i in d.getLocationMax()]
+                pamax = [self.drange[1] for j in range(self.dim)]
+                # prune data points that are obviously dominated by current data point
+                parea = (self.index.intersection(tuple(pastart+pamax),objects=True))
+                for p in parea:
+                    if p.object in clean:
+                        clean.remove(p.object)
+        for d in clean:
+            pruned.remove(d)
+        for d in pruned.copy():
+            if d in pruned:
+                pastart = [self.drange[1] if i+2*self.radius+0.1>self.drange[1] else i+2*self.radius+0.1 for i in d.getLocationMax()]
+                pamax = [self.drange[1] for j in range(self.dim)]
+                # prune data points that are obviously dominated by current data point
+                parea = (self.index.intersection(tuple(pastart+pamax),objects=True))
+                for p in parea:
+                    if p.object in pruned:
+                        pruned.remove(p.object)
+        self.skyline = clean
+        self.skyline2 = pruned
     def getWindow(self):
         return self.window
     def getSkyline(self):
@@ -140,7 +120,7 @@ class slideUPSky():
             print('No such files')
 
 if __name__ == '__main__':
-    test = slideUPSky(2, 5, 4, [0,1000], wsize=100)
+    test = slideBPSky(2, 5, 4, [0,1000], wsize=100)
     dqueue = batchImport('1500_dim2_pos5_rad5_01000.csv', 5)
     start_time = time.time()
     for i in range(1500):
