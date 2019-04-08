@@ -123,7 +123,7 @@ if __name__ == '__main__':
     test = slideBPSky(2, 5, 4, [0,1000], wsize=100)
     dqueue = batchImport('1500_dim2_pos5_rad5_01000.csv', 5)
     start_time = time.time()
-    for i in range(1500):
+    for i in range(10000):
         test.receiveData(dqueue[i])
         test.updateSkyline()
         # if i%100 == 0:
