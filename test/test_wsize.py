@@ -15,7 +15,7 @@ def wsize_time():
     wsize = [100,200,300,400,500,600,700,800,900,1000]
     dqueue = batchImport('10000_dim2_pos5_rad5_01000.csv', 5)
     for w in wsize:
-        print('========== window size = '+ str(w) + ' ==========\n')
+        print('========== window size = '+ str(w) + ' ==========')
         print('---------- Brute force ----------')
         tbsky = slideBPSky(2, 5, 5, [0,1000], wsize=w)
         start_time = time.time()
@@ -38,7 +38,7 @@ def wsize_avgsk():
     wsize = [100,200,300,400,500,600,700,800,900,1000]
     dqueue = batchImport('10000_dim2_pos5_rad5_01000.csv', 5)
     for w in wsize:
-        print('========== window size = '+ str(w) + ' ==========\n')
+        print('========== window size = '+ str(w) + ' ==========')
         print('---------- Brute force ----------')
         tbsky = slideBPSky(2, 5, 5, [0,1000], wsize=w)
         avgsk1, avgsk2 = 0, 0

@@ -40,15 +40,15 @@ def radius_avgsk():
     radius = [3, 4, 5, 6, 7, 8, 9, 10]
     for r in radius:
         dqueue = batchImport('10000_dim2_pos5_rad'+str(r)+'_01000.csv', 5)
-        print('========== radius = '+ str(r) + ' ==========\n')
+        print('========== radius = '+ str(r) + ' ==========')
         print('---------- Brute force ----------')
         tbsky = slideBPSky(2, 5, r, [0,1000], wsize=300)
         avgsk1, avgsk2 = 0, 0
         for i in range(10000):
             tbsky.receiveData(dqueue[i])
             tbsky.updateSkyline()
-            avgsk1 += len(tusky.getSkyline())
-            avgsk2 += len(tusky.getSkyline2())
+            avgsk1 += len(tbsky.getSkyline())
+            avgsk2 += len(tbsky.getSkyline2())
         tbsky.removeRtree()
         avgsk1, avgsk2 = avgsk1/10000, avgsk2/10000
         print('Avg. sky1: '+ str(avgsk1))
@@ -61,7 +61,7 @@ def radius_avgsk():
             tusky.updateSkyline()
             avgsk1 += len(tusky.getSkyline())
             avgsk2 += len(tusky.getSkyline2())
-        tbsky.removeRtree()
+        tusky.removeRtree()
         avgsk1, avgsk2 = avgsk1/10000, avgsk2/10000
         print('Avg. sky1: '+ str(avgsk1))
         print('Avg. sky2: '+ str(avgsk2))

@@ -16,7 +16,7 @@ def dim_time():
     dim = [2, 3, 4, 5, 6, 7, 8, 9, 10]
     for d in dim:
         dqueue = batchImport('10000_dim'+str(d)+'_pos5_rad5_01000.csv', 5)
-        print('========== Data dimension = '+ str(d) + ' ==========\n')
+        print('========== Data dimension = '+ str(d) + ' ==========')
         print('---------- Brute force ----------')
         tbsky = slideBPSky(d, 5, 5, [0,1000], wsize=300)
         start_time = time.time()
@@ -39,7 +39,7 @@ def dim_avgsk():
     dim = [2, 3, 4, 5, 6, 7, 8, 9, 10]
     dqueue = batchImport('10000_dim'+str(dim)+'_pos5_rad5_01000.csv', 5)
     for d in dim:
-        print('========== Data dimension = '+ str(d) + ' ==========\n')
+        print('========== Data dimension = '+ str(d) + ' ==========')
         print('---------- Brute force ----------')
         tbsky = slideBPSky(d, 5, 5, [0,1000], wsize=300)
         avgsk1, avgsk2 = 0, 0
