@@ -16,7 +16,7 @@ def radius_time():
     print('=== Test how data radius affect running time ===')
     radius = [3, 4, 5, 6, 7, 8, 9, 10]
     for r in radius:
-        dqueue = batchImport('10000_dim2_pos5_rad'+str(r)+'01000.csv', 5)
+        dqueue = batchImport('10000_dim2_pos5_rad'+str(r)+'_01000.csv', 5)
         print('========== radius = '+ str(r) + ' ==========\n')
         print('---------- Brute force ----------')
         tbsky = slideBPSky(2, 5, r, [0,1000], wsize=300)
@@ -39,7 +39,7 @@ def radius_avgsk():
     print('=== Test how data radius affect candidate skyline ===')
     radius = [3, 4, 5, 6, 7, 8, 9, 10]
     for r in radius:
-        dqueue = batchImport('10000_dim2_pos5_rad'+str(r)+'01000.csv', 5)
+        dqueue = batchImport('10000_dim2_pos5_rad'+str(r)+'_01000.csv', 5)
         print('========== radius = '+ str(r) + ' ==========\n')
         print('---------- Brute force ----------')
         tbsky = slideBPSky(2, 5, r, [0,1000], wsize=300)
