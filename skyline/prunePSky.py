@@ -137,12 +137,12 @@ class prunePSky():
             print('No such files')
 
 if __name__ == '__main__':
-    test = prunePSky(5, drange=[0,100],radius=4)
-    test.loadData('data_rec100_dim2_pos5_rad4.csv')
+    test = prunePSky(3, drange=[0,100],radius=2)
+    test.loadData('test_30_dim2_pos3_rad2_0100.csv')
     test.createIndex(2)
     test.pruning()
     test.calculateUSky()
-    visualize(test.getOrigin(),5, [0,100])
-    visualize(test.getPruned(),5, [0,100])
-    visualize(test.getCandidate(),5, [0,100])
+    visualize(test.getOrigin(),3, [0,100])
+    visualize(test.getPruned(),3, [0,100])
+    visualize(test.getCandidate(),3, [0,100])
     test.removeRtree()
