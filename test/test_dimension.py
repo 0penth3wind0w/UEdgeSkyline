@@ -37,8 +37,8 @@ def dim_time():
 def dim_avgsk():
     print("=== Test how dimension of data affect candidate size ===")
     dim = [2, 3, 4, 5, 6, 7, 8, 9, 10]
-    dqueue = batchImport('10000_dim'+str(dim)+'_pos5_rad5_01000.csv', 5)
     for d in dim:
+        dqueue = batchImport('10000_dim'+str(d)+'_pos5_rad5_01000.csv', 5)
         print('========== Data dimension = '+ str(d) + ' ==========')
         print('---------- Brute force ----------')
         tbsky = slideBPSky(d, 5, 5, [0,1000], wsize=300)
