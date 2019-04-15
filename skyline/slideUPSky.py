@@ -34,6 +34,7 @@ class slideUPSky():
         self.window = [] # sliding window
         self.skyline = [] # 1st set skyline candidate
         self.skyline2 = [] # 2nd set skyline candidate
+        self.outdated = [] # temporary storage for outdated data
         p = index.Property()
         p.dimension = dim
         p.dat_extension = 'data'
@@ -48,6 +49,7 @@ class slideUPSky():
         """
         if len(self.window) >= self.wsize:
             self.updateIndex(self.window[0], "remove")
+            self.outdated.append(self.window[0])
             del self.window[0]
         self.window.append(d)
         self.updateIndex(d,"insert")
@@ -70,52 +72,51 @@ class slideUPSky():
         else:
             print("error")
     def updateSkyline(self):
-        skyline = self.skyline.copy()
-        skyline2 = self.skyline2.copy()
-        # Remove outdated data in sk2
-        for d in skyline2.copy():
-            if not (d in self.window):
-                skyline2.remove(d)
-        # Remove outdated data in sk, add sk2 data to sk when needed
-        for d in skyline.copy():
-            if not (d in self.window):
-                skyline.remove(d)
-                sstart = [ i for i in d.getLocationMax()]
-                send = [self.drange[1] for i in range(self.dim)]
-                search = [ p.object for p in (self.index.intersection(tuple(sstart+send),objects=True))]
-                for sd in search:
-                    if sd in skyline2:
-                        skyline2.remove(sd)
-                        skyline.append(sd)
+        # skyline = self.skyline.copy()
+        # skyline2 = self.skyline2.copy()
+        if len(self.outdated) > 0:
+            # Remove outdated data in sk2
+            for d in self.outdated:
+                if d in self.skyline2:
+                    self.skyline2.remove(d)
+            # Remove outdated data in sk, add sk2 data to sk when needed
+            for d in self.outdated:
+                if d in self.skyline:
+                    self.skyline.remove(d)
+                    sstart = [ i for i in d.getLocationMax()]
+                    send = [self.drange[1] for i in range(self.dim)]
+                    search = [ p.object for p in (self.index.intersection(tuple(sstart+send),objects=True))]
+                    for sd in search:
+                        if sd in self.skyline2:
+                            self.skyline2.remove(sd)
+                            self.skyline.append(sd)
+            # clear outdated temp
+            del self.outdated[0]
         # filter out new points
-        newdata = self.window.copy()
-        for d in newdata.copy():
-            if (d in skyline) or (d in skyline2):
-                newdata.remove(d)
+        newdata = self.window[-1]
         # append new point into sk
-        for d in newdata:
-            skyline.append(d)
+        self.skyline.append(newdata)
         # prune objects in sk, move data dominated by other sk point to sk2
-        for d in skyline.copy():
-            if d in skyline:
+        for d in self.skyline.copy():
+            if d in self.skyline:
                 vurstart = [ self.drange[1] if i+2*self.radius+0.1 > self.drange[1] else i+2*self.radius+0.1 for i in d.getLocationMax()]
                 vurend = [ self.drange[1] for i in range(self.dim)]
                 vur = [ p.object for p in (self.index.intersection(tuple(vurstart+vurend),objects=True))]
                 for p in vur:
-                    if p in skyline:
-                        skyline.remove(p)
-                        skyline2.append(p)
+                    if p in self.skyline:
+                        self.skyline.remove(p)
+                        self.skyline2.append(p)
         # prune objects in sk2
-        for d in skyline2.copy():
-            if d in skyline2:
+        for d in self.skyline2.copy():
+            if d in self.skyline2:
                 vurstart = [ self.drange[1] if i+2*self.radius+0.1 > self.drange[1] else i+2*self.radius+0.1 for i in d.getLocationMax()]
                 vurend = [ self.drange[1] for i in range(self.dim)]
                 vur = [ p.object for p in (self.index.intersection(tuple(vurstart+vurend),objects=True))]
                 for p in vur:
-                    if p in skyline2:
-                       skyline2.remove(p)
-        self.skyline = skyline
-        self.skyline2 = skyline2
+                    if p in self.skyline2:
+                       self.skyline2.remove(p)
+        # self.skyline = skyline
+        # self.skyline2 = skyline2
     def getWindow(self):
         return self.window
     def getSkyline(self):
