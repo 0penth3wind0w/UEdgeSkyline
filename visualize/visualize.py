@@ -50,4 +50,4 @@ if __name__ == '__main__':
         csv = input('Please specify the csv file name in data folder: ')
         pcount = int(input('Please input the probability count: '))
     datalist = batchImport(csv, pcount)
-    visualize(datalist, pcount, [0,100])
+    visualize(datalist, pcount, [0,1000])
