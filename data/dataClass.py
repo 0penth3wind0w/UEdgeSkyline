@@ -123,7 +123,8 @@ class Data():
         return self.__dict__ == other.__dict__
     def __str__(self):
         return str(self.__dict__)
-    
+    def __hash__(self):
+        return hash(str(self.__dict__))
 
 def batchImport(csvfile, ps):
     """

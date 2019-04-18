@@ -129,9 +129,14 @@ class slideUPSky():
         Get the 2nd set of skyline candidate.
         """
         return self.skyline2
+    def getOutdated(self):
+        """
+        Get current outdated data
+        """
+        return self.outdated
     def removeRtree(self):
         """
-        remove rtree data and index file
+        Remove rtree data and index file
         """
         try:
             os.remove(str(self.dim)+'d_index.data')

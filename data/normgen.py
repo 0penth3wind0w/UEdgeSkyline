@@ -19,8 +19,8 @@ def dist(p1, p2):
 
 def datagen(dim, possibility, radius, center):
     """
-    Genetate one data according to given params.
-    Return a list which contains locations.
+    Genetate data instances according to given params.
+    Return a list which contains locations according to possibility.
     
     :params dim: int
         Dimension of the data
@@ -29,8 +29,8 @@ def datagen(dim, possibility, radius, center):
     :params radius: int
         The parameter that bound all possible instance in a limited region.
         The function will generate a central point. The distance between generated instance location and the central point will not exceed this radius.
-    :params bound: [int, int]
-        the bound of center point [min, max]
+    :params center: list(int)
+        The center point of data
     """
     result = []
     for p in range(possibility):
