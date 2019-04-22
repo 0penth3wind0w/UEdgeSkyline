@@ -10,7 +10,7 @@ from skyline.PSky import PSky
 
 # PSky class use only in server side 
 class servePSky(PSky):
-    def __init__(self, dim=2, ps=5, radius=4, drange=[0,1000], wsize=30):
+    def __init__(self, dim, ps, radius, drange=[0,1000], wsize=10):
         """
         Initializer
 
@@ -42,7 +42,7 @@ class servePSky(PSky):
             for d in data['Delete']:
                 self.window.remove(d)
                 self.outdated.append(d)
-                self.updateIndex(d, 'delete')
+                self.updateIndex(d, 'remove')
         if len(data['SK1']) > 0:
             for d in data['SK1']:
                 if d not in self.window:
@@ -107,7 +107,7 @@ class servePSky(PSky):
                        self.skyline2.remove(p)
 
 if __name__ == "__main__":
-    skyServer = servePSky()
+    skyServer = servePSky(2, 5, 4, drange=[0,1000], wsize=10)
     # Create the server, binding to HOST on PORT
     config = configparser.ConfigParser()
     config.read('edge.config')
