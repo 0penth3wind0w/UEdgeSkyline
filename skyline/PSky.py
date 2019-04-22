@@ -1,4 +1,4 @@
-# Sliding window update PSky
+# Sliding window PSky super class 
 import os, sys
 sys.path.append(os.path.abspath(os.pardir))
 
@@ -80,5 +80,6 @@ class PSky():
             print('Files removed')
         except:
             print('No such files')
+
 if __name__ == '__main__':
     pass

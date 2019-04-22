@@ -8,6 +8,7 @@ from visualize.visualize import visualize
 
 from dominate import dominateStat
 
+# Probabilitistic Skyline Query without sliding window
 class prunePSky():
     def __init__(self, ps, drange=[0,100], radius=3):
         """

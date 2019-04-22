@@ -8,10 +8,36 @@ import pickle
 from data.dataClass import Data
 from skyline.PSky import PSky
 
+# PSky class use only in server side 
 class servePSky(PSky):
     def __init__(self, dim=2, ps=5, radius=4, drange=[0,1000], wsize=30):
+        """
+        Initializer
+
+        :param dim: int
+            The dimension of data
+        :param ps: int
+            The occurance count of the instance.
+        :param radius: int
+            radius use to prevent data being pruned unexpectedly.
+            Recommand to be set according to the name of .csv file.
+        :param drange: list(int)
+            data range [min, max]
+        :param wsize: int
+            Size of sliding window.
+            Note that the window size should be sum(edge window)
+        """
         PSky.__init__(self, dim, ps, radius, drange, wsize)
     def receive(self,data):
+        """
+        Update data received by server
+
+        :param data: dict
+            json format(dict) data include change of an edge node.
+            Delete: outdated data
+            SK1: new data in skyline set
+            SK2: new data in skyline2 set
+        """
         if len(data['Delete']) > 0:
             for d in data['Delete']:
                 self.window.remove(d)
@@ -39,6 +65,9 @@ class servePSky(PSky):
                 # ignore other condition
         self.update()
     def update(self):
+        """
+        Update global skyline set
+        """
         if len(self.outdated) > 0:
             # Remove outdated data in sk2
             for d in self.outdated:
