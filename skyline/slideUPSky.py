@@ -48,11 +48,11 @@ class slideUPSky():
             The received data
         """
         if len(self.window) >= self.wsize:
-            self.updateIndex(self.window[0], "remove")
+            self.updateIndex(self.window[0], 'remove')
             self.outdated.append(self.window[0])
             del self.window[0]
         self.window.append(d)
-        self.updateIndex(d,"insert")
+        self.updateIndex(d,'insert')
     def updateIndex(self, d, op):
         """
         Update R-Tree index
