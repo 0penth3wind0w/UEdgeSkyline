@@ -35,10 +35,10 @@ class slideBPSky(PSky):
             The received data
         """
         if len(self.window) >= self.wsize:
-            self.updateIndex(self.window[0], "remove")
+            self.updateIndex(self.window[0], 'remove')
             del self.window[0]
         self.window.append(d)
-        self.updateIndex(d,"insert")
+        self.updateIndex(d,'insert')
     def updateSkyline(self):
         pruned = self.window.copy()
         clean = self.window.copy()
