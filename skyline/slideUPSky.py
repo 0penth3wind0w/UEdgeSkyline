@@ -45,22 +45,23 @@ class slideUPSky(PSky):
         # skyline2 = self.skyline2.copy()
         if len(self.outdated) > 0:
             # Remove outdated data in sk2
-            for d in self.outdated:
+            for d in self.outdated.copy():
                 if d in self.skyline2:
                     self.skyline2.remove(d)
+                    self.outdated.remove(d)
             # Remove outdated data in sk, add sk2 data to sk when needed
             for d in self.outdated:
                 if d in self.skyline:
                     self.skyline.remove(d)
-                    sstart = [ i for i in d.getLocationMax()]
+                    sstart = [ i for i in d.getLocationMin()]
                     send = [self.drange[1] for i in range(self.dim)]
-                    search = [ p.object for p in (self.index.intersection(tuple(sstart+send),objects=True))]
+                    search = (self.index.intersection(tuple(sstart+send),objects=True))
                     for sd in search:
-                        if sd in self.skyline2:
+                        if sd.object in self.skyline2:
                             self.skyline2.remove(sd)
                             self.skyline.append(sd)
             # clear outdated temp
-            del self.outdated[0]
+            self.outdated.clear()
         # filter out new points
         newdata = self.window[-1]
         # append new point into sk
