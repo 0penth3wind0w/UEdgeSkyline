@@ -41,49 +41,53 @@ class slideUPSky(PSky):
         self.window.append(d)
         self.updateIndex(d,'insert')
     def updateSkyline(self):
+        skyline = self.skyline.copy()
+        skyline2 = self.skyline2.copy()
         if self.outdated: # check empty or nor (False if empty)
             # Remove outdated data in sk2
             for d in self.outdated.copy():
-                if d in self.skyline2:
-                    self.skyline2.remove(d)
+                if d in skyline2:
+                    skyline2.remove(d)
                     self.outdated.remove(d)
         if self.outdated:
             # Remove outdated data in sk, add sk2 data to sk when needed
             for d in self.outdated:
-                if d in self.skyline:
-                    self.skyline.remove(d)
+                if d in skyline:
+                    skyline.remove(d)
                     sstart = [ i for i in d.getLocationMax()]
                     send = [self.drange[1] for i in range(self.dim)]
                     search = (self.index.intersection(tuple(sstart+send),objects=True))
                     for sd in search:
-                        if sd.object in self.skyline2:
-                            self.skyline2.remove(sd.object)
-                            self.skyline.append(sd.object)
+                        if sd.object in skyline2:
+                            skyline2.remove(sd.object)
+                            skyline.append(sd.object)
             # clear outdated temp
         self.outdated.clear()
         # filter out new points
         newdata = self.window[-1]
         # append new point into sk
-        self.skyline.append(newdata)
+        skyline.append(newdata)
         # prune objects in sk, move data dominated by other sk point to sk2
-        for d in self.skyline.copy():
-            if d in self.skyline:
+        for d in skyline.copy():
+            if d in skyline:
                 vurstart = [ self.drange[1] if i+2*self.radius+0.1 > self.drange[1] else i+2*self.radius+0.1 for i in d.getLocationMax()]
                 vurend = [ self.drange[1] for i in range(self.dim)]
                 vur = [ p.object for p in (self.index.intersection(tuple(vurstart+vurend),objects=True))]
                 for p in vur:
-                    if p in self.skyline:
-                        self.skyline.remove(p)
-                        self.skyline2.append(p)
+                    if p in skyline:
+                        skyline.remove(p)
+                        skyline2.append(p)
         # prune objects in sk2
-        for d in self.skyline2.copy():
-            if d in self.skyline2:
+        for d in skyline2.copy():
+            if d in skyline2:
                 vurstart = [ self.drange[1] if i+2*self.radius+0.1 > self.drange[1] else i+2*self.radius+0.1 for i in d.getLocationMax()]
                 vurend = [ self.drange[1] for i in range(self.dim)]
                 vur = [ p.object for p in (self.index.intersection(tuple(vurstart+vurend),objects=True))]
                 for p in vur:
-                    if p in self.skyline2:
-                       self.skyline2.remove(p)
+                    if p in skyline2:
+                       skyline2.remove(p)
+        self.skyline = skyline
+        self.skyline2 = skyline2
 
 if __name__ == '__main__':
     test = slideUPSky(2, 5, 4, [0,1000], wsize=100)
