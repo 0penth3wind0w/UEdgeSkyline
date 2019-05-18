@@ -27,6 +27,7 @@ class slideUPSky(PSky):
             Size of sliding window.
         """
         PSky.__init__(self, dim, ps, radius, drange, wsize)
+        self.newdata = []
     def receiveData(self, d):
         """
         Receive one new data.
@@ -39,6 +40,7 @@ class slideUPSky(PSky):
             self.outdated.append(self.window[0])
             del self.window[0]
         self.window.append(d)
+        self.newdata.append(d)
         self.updateIndex(d,'insert')
     def updateSkyline(self):
         skyline = self.skyline.copy()
@@ -61,12 +63,13 @@ class slideUPSky(PSky):
                         if sd.object in skyline2:
                             skyline2.remove(sd.object)
                             skyline.append(sd.object)
-            # clear outdated temp
+        # clear outdated temp
         self.outdated.clear()
-        # filter out new points
-        newdata = self.window[-1]
         # append new point into sk
-        skyline.append(newdata)
+        for d in self.newdata:
+            skyline.append(d)
+        # clear newdata temp
+        self.newdata.clear()
         # prune objects in sk, move data dominated by other sk point to sk2
         for d in skyline.copy():
             if d in skyline:
