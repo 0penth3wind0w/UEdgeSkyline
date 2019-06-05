@@ -93,21 +93,29 @@ class slideUPSky(PSky):
         self.skyline2 = skyline2
 
 if __name__ == '__main__':
-    test = slideUPSky(2, 5, 4, [0,1000], wsize=100)
-    dqueue = batchImport('test_1500_dim2_pos5_rad5_01000.csv', 5)
-    start_time = time.time()
-    for i in range(1500):
+    test = slideUPSky(2, 5, 5, [0,1000], wsize=300)
+    dqueue = batchImport('10000_dim2_pos5_rad5_01000.csv', 5)
+    
+    prevsk1 = []
+    prevsk2 = []
+    
+    with open('result.txt', 'a') as f:
+        f.write("o_Delete,o_SK1,o_SK2,a_Delete,a_SK1,a_SK2\n")
+
+    for i in range(10000):
         test.receiveData(dqueue[i])
+        out = test.getOutdated().copy()
         test.updateSkyline()
-        # if i%100 == 0:
-        #     print("Window: "+str(len(test.getWindow())))
-        #     print("Sk: "+ str(len(test.getSkyline())))
-        #     # for each in test.getSkyline():
-        #     #     print(each)
-        #     print("Sk2: "+ str(len(test.getSkyline2())))
-        #     visualize(test.getWindow(), 5, [0,1000])
-        #     visualize(test.getSkyline(), 5, [0,1000])
-        #     visualize(test.getSkyline2(), 5, [0,1000])
-        #     print()
+        usk1 = list(set(test.getSkyline())-set(prevsk1))
+        usk2 = list(set(test.getSkyline2())-set(prevsk2))
+        orig = {'Delete':out,'SK1':test.getSkyline(),'SK2':test.getSkyline2()}
+        arch = {'Delete':out,'SK1':usk1,'SK2':usk2}
+        
+        with open('result.txt', 'a') as f:
+            f.write(str(len(orig['Delete']))+','+str(len(orig['SK1']))+','+str(len(orig['SK2']))+','+str(len(arch['Delete']))+','+str(len(arch['SK1']))+','+str(len(arch['SK2']))+'\n')
+        
+        prevsk1 = test.getSkyline().copy()
+        prevsk2 = test.getSkyline2().copy()
+
     test.removeRtree()
-    print("--- %s seconds ---" % (time.time() - start_time))
+    # print("--- %s seconds ---" % (time.time() - start_time))
