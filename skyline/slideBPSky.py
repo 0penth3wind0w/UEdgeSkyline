@@ -68,21 +68,21 @@ class slideBPSky(PSky):
         self.skyline2 = pruned
 
 if __name__ == '__main__':
-    test = slideBPSky(2, 5, 4, [0,1000], wsize=100)
-    dqueue = batchImport('test_1500_dim2_pos5_rad5_01000.csv', 5)
+    test = slideBPSky(5, 5, 5, [0,1000], wsize=24)
+    dqueue = batchImport('data.csv', 5)
     start_time = time.time()
-    for i in range(1500):
+    for i in range(827):
         test.receiveData(dqueue[i])
         test.updateSkyline()
-        if i == 300:
-            print("Window: "+str(len(test.getWindow())))
-            print("Sk: "+ str(len(test.getSkyline())))
-            # for each in test.getSkyline():
-            #     print(each)
-            print("Sk2: "+ str(len(test.getSkyline2())))
-            visualize(test.getWindow(), 5, [0,1000])
-            visualize(test.getSkyline(), 5, [0,1000])
-            visualize(test.getSkyline2(), 5, [0,1000])
-            print()
+        # if i == 300:
+        #     print("Window: "+str(len(test.getWindow())))
+        #     print("Sk: "+ str(len(test.getSkyline())))
+        #     # for each in test.getSkyline():
+        #     #     print(each)
+        #     print("Sk2: "+ str(len(test.getSkyline2())))
+        #     visualize(test.getWindow(), 5, [0,1000])
+        #     visualize(test.getSkyline(), 5, [0,1000])
+        #     visualize(test.getSkyline2(), 5, [0,1000])
+        #     print()
     test.removeRtree()
     print("--- %s seconds ---" % (time.time() - start_time))

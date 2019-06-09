@@ -143,7 +143,7 @@ def batchImport(csvfile, ps):
             data = Data(row[0], ps)
             for p in range(ps):
                 # Some awful string manipulation to parse numbers
-                data.insertLocation(float(row[2*p+1]), [int(i) for i in row[2*p+2].strip(' []').split(',')])
+                data.insertLocation(float(row[2*p+1]), [int(float(i)) for i in row[2*p+2].strip(' []').split(',')])
             result.append(data)
     return result
 

@@ -43,11 +43,11 @@ def visualize(datalist, pcount, drange=[0,100]):
         plt.show()
 
 if __name__ == '__main__':
-    csv = 'test_30_dim3_pos3_rad2_0100.csv'
-    pcount = 3
+    csv = 'data.csv'
+    pcount = 5
     answer = input('Would you like to change the csv file? (Y/N)')
     if answer == 'Y':
         csv = input('Please specify the csv file name in data folder: ')
         pcount = int(input('Please input the probability count: '))
     datalist = batchImport(csv, pcount)
-    visualize(datalist, pcount, [0,10])
+    visualize(datalist, pcount, [0,1000])
