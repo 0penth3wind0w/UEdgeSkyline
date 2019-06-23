@@ -1,13 +1,10 @@
 import os, sys
 sys.path.append(os.path.abspath(os.pardir))
 
-import socket
-import configparser
 import pickle
 
 from data.dataClass import Data
 from skyline.PSky import PSky
-
 from visualize import visualize
 
 # PSky class use only in server side 
@@ -110,19 +107,11 @@ class servePSky(PSky):
 
 if __name__ == "__main__":
     skyServer = servePSky(2, 5, 4, drange=[0,1000], wsize=10)
-    # Create the server, binding to HOST on PORT
-    config = configparser.ConfigParser()
-    config.read('edge.config')
-    PORT = int(config['DEFAULT'].get('Port'))
-    HOST = config['DEFAULT'].get('Host')
 
     with open('pickle_edge.pickle', 'rb') as f:
         for i in range(15):
             data = pickle.load(f)
             skyServer.receive(data)
             skyServer.update()
-
-            print(skyServer.getSkyline())
-            print(skyServer.getSkyline2())
-        visualize.visualize(skyServer.getSkyline(),4,[0,1000])
-        visualize.visualize(skyServer.getSkyline2(),4,[0,1000])
+    
+    skyServer.removeRtree()
