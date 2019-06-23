@@ -6,4 +6,4 @@ rtree/__pycache__
 */*_index.data
 */*_index.index
 socket/*.config
-test/*.pickle
+experiments/*.pickle

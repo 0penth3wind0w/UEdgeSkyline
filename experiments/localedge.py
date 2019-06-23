@@ -8,10 +8,11 @@ from skyline.slideUPSky import slideUPSky
 from visualize import visualize
 
 if __name__ == "__main__":
+    eid = input("Edge id: ")
     usky = slideUPSky(2, 5, 4, [0,1000], wsize=10)
     dqueue = batchImport('1500_dim2_pos4_rad5_01000.csv', 4)
     
-    with open('pickle_edge.pickle', 'wb') as f:
+    with open('pickle_edge'+eid+'.pickle', 'wb') as f:
         for i in range(15):
             oldsk = usky.getSkyline().copy()
             oldsk2 = usky.getSkyline2().copy()
