@@ -39,9 +39,10 @@ class servePSky(PSky):
         """
         if len(data['Delete']) > 0:
             for d in data['Delete']:
-                self.window.remove(d)
-                self.outdated.append(d)
-                self.updateIndex(d, 'remove')
+                if d in self.window:
+                    self.window.remove(d)
+                    self.outdated.append(d)
+                    self.updateIndex(d, 'remove')
         if len(data['SK1']) > 0:
             for d in data['SK1']:
                 if d not in self.window:
