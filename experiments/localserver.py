@@ -2,6 +2,7 @@ import os, sys
 sys.path.append(os.path.abspath(os.pardir))
 
 import pickle
+import time
 
 from data.dataClass import Data
 from skyline.PSky import PSky
@@ -107,12 +108,12 @@ class servePSky(PSky):
                        self.skyline2.remove(p)
 
 if __name__ == "__main__":
-    skyServer = servePSky(2, 5, 4, drange=[0,1000], wsize=10)
+    skyServer = servePSky(2, 5, 5, drange=[0,1000], wsize=600)
 
     with open('pickle_edge.pickle', 'rb') as f:
-        for i in range(15):
-            data = pickle.load(f)
-            skyServer.receive(data)
+        start_time = time.time()
+        for i in range(10000):
+            skyServer.receive(pickle.load(f))
             skyServer.update()
-    
+        print("--- %s seconds ---" % (time.time() - start_time))
     skyServer.removeRtree()
